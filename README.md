@@ -38,5 +38,3 @@ To access GitLab, go to:
 
 - Sonar analysis with JaCoCo
 - Test Coverage
-- Groovy Seed Job
-- Update Plugins
