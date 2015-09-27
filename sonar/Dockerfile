@@ -49,9 +49,9 @@ RUN /etc/init.d/postgresql-9.3 start && \
 # Install SonarQube
 ############################################
 
-RUN wget -O /tmp/sonarqube-4.4.zip http://dist.sonar.codehaus.org/sonarqube-4.4.zip
-RUN unzip -d /opt /tmp/sonarqube-4.4.zip
-RUN mv /opt/sonarqube-4.4 /opt/sonarqube
+RUN wget -O /tmp/sonarqube-5.1.zip http://dist.sonar.codehaus.org/sonarqube-5.1.zip
+RUN unzip -d /opt /tmp/sonarqube-5.1.zip
+RUN mv /opt/sonarqube-5.1 /opt/sonarqube
 RUN sed -i \
         -e "s#^sonar.jdbc.url.*#sonar.jdbc.url: jdbc:postgresql://127.0.0.1:5432/sonar#" \
         /opt/sonarqube/conf/sonar.properties

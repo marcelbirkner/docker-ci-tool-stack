@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <logRotator class="hudson.tasks.LogRotator">
+    <daysToKeep>-1</daysToKeep>
+    <numToKeep>10</numToKeep>
+    <artifactDaysToKeep>-1</artifactDaysToKeep>
+    <artifactNumToKeep>-1</artifactNumToKeep>
+  </logRotator>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.13.3">
+      <projectUrl>https://github.com/codecentric/conference-app/</projectUrl>
+    </com.coravy.hudson.plugins.github.GithubProjectProperty>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <hudson.triggers.TimerTrigger>
+      <spec>H * * * *</spec>
+    </hudson.triggers.TimerTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <javaposse.jobdsl.plugin.ExecuteDslScripts plugin="job-dsl@1.38">
+      <scriptText>def giturl = &apos;https://github.com/codecentric/conference-app&apos;
+job(&quot;conference-app&quot;) {
+  scm {
+    git {
+      remote {
+        url(giturl)
+      }
+      createTag(false)
+      clean()
+    }
+  }
+  triggers {
+    scm(&apos;10/H * * * *&apos;)
+    githubPush()
+  }
+  steps {
+    maven {
+      goals(&apos;clean install&apos;)
+      mavenInstallation(&apos;Maven 3.3.3&apos;)
+      rootPOM(&apos;monitoring/pom.xml&apos;)
+    }
+    maven {
+      goals(&apos;clean install&apos;)
+      mavenInstallation(&apos;Maven 3.3.3&apos;)
+      rootPOM(&apos;app/pom.xml&apos;)
+    }
+  }
+  publishers {
+    archiveJunit(&apos;**/target/surefire-reports/*.xml&apos;)
+  }
+}
+listView(&apos;Conference App&apos;) {
+    description(&apos;&apos;)
+    filterBuildQueue()
+    filterExecutors()
+    jobs {
+        regex(/conference-app.*/)
+    }
+    columns {
+        status()
+        weather()
+        name()
+        lastSuccess()
+        lastFailure()
+        lastDuration()
+        buildButton()
+    }
+}</scriptText>
+      <usingScriptText>true</usingScriptText>
+      <ignoreExisting>false</ignoreExisting>
+      <removedJobAction>DELETE</removedJobAction>
+      <removedViewAction>DELETE</removedViewAction>
+      <lookupStrategy>JENKINS_ROOT</lookupStrategy>
+      <additionalClasspath></additionalClasspath>
+    </javaposse.jobdsl.plugin.ExecuteDslScripts>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>

@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson.plugins.groovy.Groovy_-DescriptorImpl plugin="groovy@1.25">
+  <instanceCounter>
+    <value>0</value>
+  </instanceCounter>
+  <allowMacro>false</allowMacro>
+  <installations/>
+  <installations2>
+    <hudson.plugins.groovy.GroovyInstallation>
+      <name>Groovy 2.4.3</name>
+      <home>/usr/share/groovy-2.4.3</home>
+      <properties/>
+    </hudson.plugins.groovy.GroovyInstallation>
+  </installations2>
+</hudson.plugins.groovy.Groovy_-DescriptorImpl>

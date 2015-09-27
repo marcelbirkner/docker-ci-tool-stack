@@ -25,10 +25,10 @@ To access GitLab, go to:
 
 ## Installed Software
 
-- Jenkins
-- SonarQube
-- Nexus
-- Gitlab
+- Jenkins (no login required)
+- SonarQube (admin/admin)
+- Nexus (admin/admin123)
+- Gitlab (root/5iveL!fe)
 
 ### Jenkins Build Jobs
 
