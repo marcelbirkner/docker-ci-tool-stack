@@ -7,6 +7,8 @@ RUN /usr/local/bin/plugins.sh /var/jenkins_home/plugins.txt
 COPY jobs/1-github-seed-job.xml /usr/share/jenkins/ref/jobs/1-github-seed-job/config.xml
 COPY jobs/2-job-dsl-seed-job.xml /usr/share/jenkins/ref/jobs/2-job-dsl-seed-job/config.xml
 COPY jobs/3-conference-app-seed-job.xml /usr/share/jenkins/ref/jobs/3-conference-app-seed-job/config.xml
+COPY jobs/4-jersey-rest-server-seed-job.xml /usr/share/jenkins/ref/jobs/4-jersey-rest-server-seed-job/config.xml
+COPY jobs/5-jersey-rest-server-plain.xml /usr/share/jenkins/ref/jobs/jersey-rest-server-plain/config.xml
 
 ############################################
 # Configure Jenkins
