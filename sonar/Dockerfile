@@ -1,5 +1,9 @@
 #
-# Creates a docker container with SonarQube
+# Creates a docker container with SonarQube, incl. several plugins
+# Since the original Dockerfile does not support plugins, I
+# had to extend the Dockerfile
+#
+# Original: https://hub.docker.com/_/sonarqube/
 #
 
 FROM java:openjdk-8u45-jdk
@@ -41,8 +45,7 @@ RUN set -x \
 	&& rm -rf $SONARQUBE_HOME/bin/*
 
 # Installing Plugins
-RUN set -x \
-  && cd /opt/sonarqube/extensions/plugins/ \
+RUN cd /opt/sonarqube/extensions/plugins/ \
   && curl -o sonar-java-plugin-3.5.jar -fSL $SONAR_DOWNLOAD_URL/sonar-java-plugin/sonar-java-plugin-3.5.jar \
   && curl -o sonar-web-plugin-2.4.jar -fSL $SONAR_DOWNLOAD_URL/sonar-web-plugin/sonar-web-plugin-2.4.jar \
   && curl -o sonar-scm-git-plugin-1.1.jar -fSL http://downloads.sonarsource.com/plugins/org/codehaus/sonar-plugins/sonar-scm-git-plugin/1.1/sonar-scm-git-plugin-1.1.jar
@@ -50,5 +53,9 @@ RUN set -x \
 VOLUME ["$SONARQUBE_HOME/data", "$SONARQUBE_HOME/extensions"]
 
 WORKDIR $SONARQUBE_HOME
+RUN pwd
 COPY run.sh $SONARQUBE_HOME/bin/
+RUN chmod ug+x $SONARQUBE_HOME/bin/*
+RUN ls -la $SONARQUBE_HOME/bin/
+
 ENTRYPOINT ["./bin/run.sh"]
