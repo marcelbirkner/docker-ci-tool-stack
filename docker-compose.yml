@@ -13,7 +13,7 @@ nexus:
     - "18081:8081"
 
 sonar:
-  image: sonarqube:5.1
+  build: ./sonar
   ports:
    - "19000:9000"
    - "5432:5432"

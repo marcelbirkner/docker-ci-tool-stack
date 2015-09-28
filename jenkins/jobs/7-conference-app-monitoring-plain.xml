@@ -37,7 +37,7 @@
     <hudson.tasks.Maven>
       <targets>clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Psonar -Dmaven.test.failure.ignore=true</targets>
       <mavenName>Maven 3.3.3</mavenName>
-      <pom>app/pom.xml</pom>
+      <pom>monitoring/pom.xml</pom>
       <usePrivateRepository>false</usePrivateRepository>
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>
       <globalSettings class="org.jenkinsci.plugins.configfiles.maven.job.MvnGlobalSettingsProvider" plugin="config-file-provider@2.9.3">
@@ -45,13 +45,6 @@
       </globalSettings>
     </hudson.tasks.Maven>
   </builders>
-  <publishers>
-    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.2-beta-4">
-      <testResults>**/target/surefire-reports/*.xml</testResults>
-      <keepLongStdio>false</keepLongStdio>
-      <testDataPublishers/>
-      <healthScaleFactor>1.0</healthScaleFactor>
-    </hudson.tasks.junit.JUnitResultArchiver>
-  </publishers>
+  <publishers/>
   <buildWrappers/>
 </project>

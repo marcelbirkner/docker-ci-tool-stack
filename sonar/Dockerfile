@@ -2,79 +2,53 @@
 # Creates a docker container with SonarQube
 #
 
-FROM centos:6
+FROM java:openjdk-8u45-jdk
 
 MAINTAINER Marcel Birkner <marcel.birkner@codecentric.de>
 
-USER root
+ENV SONARQUBE_HOME /opt/sonarqube
 
-# Update the system
-RUN yum -y update; \
-    yum clean all
+# Http port
+EXPOSE 9000
 
-##########################################################
-# Install Java JDK other useful cmdline utilities
-##########################################################
-RUN yum -y install java-1.7.0-openjdk-devel \
-    which \
-		telnet \
-		unzip \
-		openssh-server \
-		sudo \
-		openssh-clients \
-		iputils \
-		iproute \
-		httpd-tools \
-		wget
-RUN yum clean all
+# H2 Database port
+EXPOSE 9092
 
-############################################
-# Install PostgreSQL
-############################################
+# Database configuration
+# Defaults to using H2
+ENV SONARQUBE_JDBC_USERNAME sonar
+ENV SONARQUBE_JDBC_PASSWORD sonar
+ENV SONARQUBE_JDBC_URL jdbc:h2:tcp://localhost:9092/sonar
 
-# RUN yum -y localinstall http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-centos93-9.3-1.noarch.rpm
-# RUN yum -y install postgresql93-server \
-#     postgresql93
-# RUN /etc/init.d/postgresql-9.3 initdb
-# RUN sed -i "s/peer/trust/g" /var/lib/pgsql/9.3/data/pg_hba.conf
-# RUN sed -i "s/ident/md5/g" /var/lib/pgsql/9.3/data/pg_hba.conf
-# RUN echo "host    all             all             0.0.0.0/0               md5" >> /var/lib/pgsql/9.3/data/pg_hba.conf
+ENV SONAR_VERSION 5.1.2
 
-# RUN echo "listen_addresses='*'" >> /var/lib/pgsql/9.3/data/postgresql.conf
-# RUN /etc/init.d/postgresql-9.3 start && \
-#	psql -U postgres --command "CREATE USER sonar WITH SUPERUSER PASSWORD 'sonar';" && \
-#	runuser -l postgres -c "createdb -O sonar sonar"
+ENV SONAR_DOWNLOAD_URL https://sonarsource.bintray.com/Distribution
 
-############################################
-# Install SonarQube
-############################################
+# pub   2048R/D26468DE 2015-05-25
+#      Key fingerprint = F118 2E81 C792 9289 21DB  CAB4 CFCA 4A29 D264 68DE
+# uid       [ unknown] sonarsource_deployer (Sonarsource Deployer) <infra@sonarsource.com>
+# sub   2048R/06855C1D 2015-05-25
+RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys F1182E81C792928921DBCAB4CFCA4A29D26468DE
 
-RUN wget -O /tmp/sonarqube-5.1.zip http://dist.sonar.codehaus.org/sonarqube-5.1.zip
-RUN unzip -d /opt /tmp/sonarqube-5.1.zip
-RUN mv /opt/sonarqube-5.1 /opt/sonarqube
-#RUN sed -i \
-#        -e "s#^sonar.jdbc.url.*#sonar.jdbc.url: jdbc:postgresql://127.0.0.1:5432/sonar#" \
-#        /opt/sonarqube/conf/sonar.properties
+RUN set -x \
+	&& cd /opt \
+	&& curl -o sonarqube.zip -fSL http://downloads.sonarsource.com/sonarqube/sonarqube-$SONAR_VERSION.zip \
+	&& curl -o sonarqube.zip.asc -fSL http://downloads.sonarsource.com/sonarqube/sonarqube-$SONAR_VERSION.zip.asc \
+	&& gpg --verify sonarqube.zip.asc \
+	&& unzip sonarqube.zip \
+	&& mv sonarqube-$SONAR_VERSION sonarqube \
+  && rm sonarqube.zip* \
+	&& rm -rf $SONARQUBE_HOME/bin/*
 
-############################################
-# Install Supervisor
-############################################
+# Installing Plugins
+RUN set -x \
+  && cd /opt/sonarqube/extensions/plugins/ \
+  && curl -o sonar-java-plugin-3.5.jar -fSL $SONAR_DOWNLOAD_URL/sonar-java-plugin/sonar-java-plugin-3.5.jar \
+  && curl -o sonar-web-plugin-2.4.jar -fSL $SONAR_DOWNLOAD_URL/sonar-web-plugin/sonar-web-plugin-2.4.jar \
+  && curl -o sonar-scm-git-plugin-1.1.jar -fSL http://downloads.sonarsource.com/plugins/org/codehaus/sonar-plugins/sonar-scm-git-plugin/1.1/sonar-scm-git-plugin-1.1.jar
 
-RUN yum -y localinstall http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
-RUN yum -y install supervisor
+VOLUME ["$SONARQUBE_HOME/data", "$SONARQUBE_HOME/extensions"]
 
-# RUN echo "[program:postgresql]" >> /etc/supervisord.conf
-# RUN echo "command=/etc/init.d/postgresql-9.3 start" >> /etc/supervisord.conf
-# RUN echo "priority=10" >> /etc/supervisord.conf
-
-RUN echo -e "\n\n[program:sonar]" >> /etc/supervisord.conf
-RUN echo "command=/opt/sonarqube/bin/linux-x86-64/sonar.sh console" >> /etc/supervisord.conf
-RUN echo "priority=20" >> /etc/supervisord.conf
-
-############################################
-# Start Sonar
-############################################
-
-CMD ["/usr/bin/supervisord", "-n"]
-
-EXPOSE 9000 5432
+WORKDIR $SONARQUBE_HOME
+COPY run.sh $SONARQUBE_HOME/bin/
+ENTRYPOINT ["./bin/run.sh"]
