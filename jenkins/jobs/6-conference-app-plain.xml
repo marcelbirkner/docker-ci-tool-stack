@@ -2,12 +2,6 @@
 <project>
   <actions/>
   <description></description>
-  <logRotator class="hudson.tasks.LogRotator">
-    <daysToKeep>-1</daysToKeep>
-    <numToKeep>5</numToKeep>
-    <artifactDaysToKeep>-1</artifactDaysToKeep>
-    <artifactNumToKeep>-1</artifactNumToKeep>
-  </logRotator>
   <keepDependencies>false</keepDependencies>
   <properties>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
@@ -19,18 +13,18 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>https://github.com/marcelbirkner/jersey-rest-server</url>
+        <url>https://github.com/codecentric/conference-app</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
       <hudson.plugins.git.BranchSpec>
-        <name>enunciate</name>
+        <name>**</name>
       </hudson.plugins.git.BranchSpec>
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
     <submoduleCfg class="list"/>
     <extensions>
-      <hudson.plugins.git.extensions.impl.CleanBeforeCheckout/>
+      <hudson.plugins.git.extensions.impl.CleanCheckout/>
     </extensions>
   </scm>
   <canRoam>true</canRoam>
@@ -41,28 +35,9 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Maven>
-      <targets>versions:set</targets>
+      <targets>clean install sonar:sonar -Psonar</targets>
       <mavenName>Maven 3.3.3</mavenName>
-      <properties>newVersion=${BUILD_NUMBER}</properties>
-      <usePrivateRepository>false</usePrivateRepository>
-      <settings class="jenkins.mvn.DefaultSettingsProvider"/>
-      <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
-    </hudson.tasks.Maven>
-    <hudson.tasks.Maven>
-      <targets>clean install</targets>
-      <mavenName>Maven 3.3.3</mavenName>
-      <usePrivateRepository>false</usePrivateRepository>
-      <settings class="jenkins.mvn.DefaultSettingsProvider"/>
-      <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
-    </hudson.tasks.Maven>
-    <hudson.tasks.Maven>
-      <targets>deploy:deploy-file</targets>
-      <mavenName>Maven 3.3.3</mavenName>
-      <pom>pom.xml</pom>
-      <properties>url=http://${NEXUS_PORT_8081_TCP_ADDR}:${NEXUS_PORT_8081_TCP_PORT}/nexus/content/repositories/releases/
-repositoryId=nexus-release-repository
-file=target/server-example-${BUILD_NUMBER}.war
-pomFile=pom.xml</properties>
+      <pom>monitoring/pom.xml</pom>
       <usePrivateRepository>false</usePrivateRepository>
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>
       <globalSettings class="org.jenkinsci.plugins.configfiles.maven.job.MvnGlobalSettingsProvider" plugin="config-file-provider@2.9.3">
@@ -70,8 +45,9 @@ pomFile=pom.xml</properties>
       </globalSettings>
     </hudson.tasks.Maven>
     <hudson.tasks.Maven>
-      <targets>sonar:sonar -Psonar</targets>
+      <targets>clean install sonar:sonar -Psonar</targets>
       <mavenName>Maven 3.3.3</mavenName>
+      <pom>app/pom.xml</pom>
       <usePrivateRepository>false</usePrivateRepository>
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>
       <globalSettings class="org.jenkinsci.plugins.configfiles.maven.job.MvnGlobalSettingsProvider" plugin="config-file-provider@2.9.3">
@@ -79,6 +55,14 @@ pomFile=pom.xml</properties>
       </globalSettings>
     </hudson.tasks.Maven>
   </builders>
-  <publishers/>
+  <publishers>
+    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.2-beta-4">
+      <testResults>**/target/surefire-reports/*.xml</testResults>
+      <keepLongStdio>false</keepLongStdio>
+      <testDataPublishers/>
+      <healthScaleFactor>1.0</healthScaleFactor>
+    </hudson.tasks.junit.JUnitResultArchiver>
+  </publishers>
   <buildWrappers/>
 </project>
+    
