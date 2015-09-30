@@ -16,7 +16,7 @@
     </com.sonyericsson.rebuild.RebuildSettings>
   </properties>
   <scm class="hudson.plugins.cloneworkspace.CloneWorkspaceSCM" plugin="clone-workspace-scm@0.6">
-    <parentJobName>jersey-rest-server-plain</parentJobName>
+    <parentJobName>jersey-rest-server-ci</parentJobName>
     <criteria>Any</criteria>
   </scm>
   <canRoam>true</canRoam>

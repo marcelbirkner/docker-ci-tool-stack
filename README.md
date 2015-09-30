@@ -1,6 +1,17 @@
 # CI Tools Demo
 
 This repo contains Dockerfiles for running a set of Continuous Integration Tools with a single command.
+
+```
+docker-machine stop default
+```
+
+Increase Memory to min. 6000MB
+
+```
+docker-machine start default
+```
+
 To get all docker containers up and running use:
 
 ```

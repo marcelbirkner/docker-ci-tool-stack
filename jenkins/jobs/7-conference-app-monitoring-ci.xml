@@ -37,6 +37,7 @@
     <hudson.tasks.Maven>
       <targets>clean install -Dmaven.test.failure.ignore=true</targets>
       <mavenName>Maven 3.3.3</mavenName>
+      <jvmOptions>-Xms512m -Xmx1024m</jvmOptions>
       <pom>monitoring/pom.xml</pom>
       <usePrivateRepository>false</usePrivateRepository>
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>
@@ -46,6 +47,9 @@
     </hudson.tasks.Maven>
   </builders>
   <publishers>
+    <hudson.plugins.chucknorris.CordellWalkerRecorder plugin="chucknorris@0.5">
+      <factGenerator/>
+    </hudson.plugins.chucknorris.CordellWalkerRecorder>
     <hudson.plugins.cloneworkspace.CloneWorkspacePublisher plugin="clone-workspace-scm@0.6">
       <workspaceGlob></workspaceGlob>
       <criteria>Any</criteria>

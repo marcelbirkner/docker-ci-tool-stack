@@ -35,6 +35,16 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Maven>
+      <targets>org.jacoco:jacoco-maven-plugin:0.7.4.201502262128:prepare-agent install -Psonar</targets>
+      <mavenName>Maven 3.3.3</mavenName>
+      <pom>app/pom.xml</pom>
+      <usePrivateRepository>false</usePrivateRepository>
+      <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+      <globalSettings class="org.jenkinsci.plugins.configfiles.maven.job.MvnGlobalSettingsProvider" plugin="config-file-provider@2.9.3">
+        <settingsConfigId>org.jenkinsci.plugins.configfiles.maven.GlobalMavenSettingsConfig1435422191538</settingsConfigId>
+      </globalSettings>
+    </hudson.tasks.Maven>
+    <hudson.tasks.Maven>
       <targets>sonar:sonar -Psonar</targets>
       <mavenName>Maven 3.3.3</mavenName>
       <pom>app/pom.xml</pom>
@@ -46,12 +56,9 @@
     </hudson.tasks.Maven>
   </builders>
   <publishers>
-    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.2-beta-4">
-      <testResults>**/target/surefire-reports/*.xml</testResults>
-      <keepLongStdio>false</keepLongStdio>
-      <testDataPublishers/>
-      <healthScaleFactor>1.0</healthScaleFactor>
-    </hudson.tasks.junit.JUnitResultArchiver>
+    <hudson.plugins.chucknorris.CordellWalkerRecorder plugin="chucknorris@0.5">
+      <factGenerator/>
+    </hudson.plugins.chucknorris.CordellWalkerRecorder>
   </publishers>
   <buildWrappers/>
 </project>

@@ -9,6 +9,14 @@
         <comment>global settings</comment>
         <content>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
 &lt;settings xmlns=&quot;http://maven.apache.org/SETTINGS/1.1.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd&quot;&gt;
+  &lt;mirrors&gt;
+    &lt;mirror&gt;
+      &lt;!--This sends everything else to /public --&gt;
+      &lt;id&gt;nexus&lt;/id&gt;
+      &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;
+      &lt;url&gt;http://${DOCKERCITOOLSTACK_NEXUS_1_PORT_8081_TCP_ADDR}:8081/nexus/content/groups/public&lt;/url&gt;
+    &lt;/mirror&gt;
+  &lt;/mirrors&gt;
   &lt;servers&gt;
       &lt;server&gt;
         &lt;id&gt;nexus-release-repository&lt;/id&gt;
@@ -32,7 +40,32 @@
               &lt;sonar.host.url&gt;http://${DOCKERCITOOLSTACK_SONAR_1_PORT_5432_TCP_ADDR}:9000&lt;/sonar.host.url&gt;
           &lt;/properties&gt;
       &lt;/profile&gt;
+      &lt;profile&gt;
+      &lt;id&gt;nexus&lt;/id&gt;
+      &lt;!--Enable snapshots for the built in central repo to direct --&gt;
+      &lt;!--all requests to nexus via the mirror --&gt;
+      &lt;repositories&gt;
+        &lt;repository&gt;
+          &lt;id&gt;central&lt;/id&gt;
+          &lt;url&gt;http://central&lt;/url&gt;
+          &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;
+          &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;
+        &lt;/repository&gt;
+      &lt;/repositories&gt;
+     &lt;pluginRepositories&gt;
+        &lt;pluginRepository&gt;
+          &lt;id&gt;central&lt;/id&gt;
+          &lt;url&gt;http://central&lt;/url&gt;
+          &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;
+          &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;
+        &lt;/pluginRepository&gt;
+      &lt;/pluginRepositories&gt;
+    &lt;/profile&gt;
 	&lt;/profiles&gt;
+  &lt;activeProfiles&gt;
+    &lt;!--make the profile active all the time --&gt;
+    &lt;activeProfile&gt;nexus&lt;/activeProfile&gt;
+  &lt;/activeProfiles&gt;
 &lt;/settings&gt;
 </content>
         <serverCredentialMappings/>
