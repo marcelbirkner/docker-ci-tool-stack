@@ -53,9 +53,7 @@ RUN cd /opt/sonarqube/extensions/plugins/ \
 VOLUME ["$SONARQUBE_HOME/data", "$SONARQUBE_HOME/extensions"]
 
 WORKDIR $SONARQUBE_HOME
-RUN pwd
 COPY run.sh $SONARQUBE_HOME/bin/
-RUN chmod ug+x $SONARQUBE_HOME/bin/*
-RUN ls -la $SONARQUBE_HOME/bin/
+RUN chmod +x $SONARQUBE_HOME/bin/run.sh
 
 ENTRYPOINT ["./bin/run.sh"]

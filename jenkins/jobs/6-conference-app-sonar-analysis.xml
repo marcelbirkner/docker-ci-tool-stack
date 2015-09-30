@@ -35,7 +35,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Maven>
-      <targets>clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Psonar -Dmaven.test.failure.ignore=true</targets>
+      <targets>sonar:sonar -Psonar</targets>
       <mavenName>Maven 3.3.3</mavenName>
       <pom>app/pom.xml</pom>
       <usePrivateRepository>false</usePrivateRepository>

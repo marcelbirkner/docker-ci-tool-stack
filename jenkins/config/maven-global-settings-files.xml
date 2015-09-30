@@ -24,7 +24,7 @@
           &lt;/activation&gt;
           &lt;properties&gt;
               &lt;sonar.jdbc.url&gt;
-                jdbc:postgresql://${DOCKERCITOOLSTACK_SONAR_1_PORT_5432_TCP_ADDR}:5432/sonar
+                jdbc:postgresql://${DOCKERCITOOLSTACK_SONAR_1_PORT_5432_TCP_ADDR}:${DOCKERCITOOLSTACK_SONAR_1_PORT_5432_TCP_PORT}/sonar
               &lt;/sonar.jdbc.url&gt;
               &lt;sonar.jdbc.username&gt;sonar&lt;/sonar.jdbc.username&gt;
               &lt;sonar.jdbc.password&gt;sonar&lt;/sonar.jdbc.password&gt;

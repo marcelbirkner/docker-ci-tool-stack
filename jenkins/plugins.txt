@@ -14,3 +14,6 @@ plain-credentials:1.1
 cloudbees-credentials:3.3
 config-file-provider:2.9.3
 token-macro:1.5.1
+parameterized-trigger:2.29
+clone-workspace-scm:0.6
+chucknorris:0.5

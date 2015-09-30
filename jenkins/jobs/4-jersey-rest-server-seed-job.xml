@@ -25,7 +25,7 @@
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers>
     <hudson.triggers.TimerTrigger>
-      <spec>H * * * *</spec>
+      <spec>H 8 * * *</spec>
     </hudson.triggers.TimerTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
@@ -43,7 +43,7 @@ job(&quot;jersey-rest-server&quot;) {
     }
   }
   triggers {
-    scm(&apos;10/H * * * *&apos;)
+    scm(&apos;40/H * * * *&apos;)
     githubPush()
   }
   steps {

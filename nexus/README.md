@@ -5,5 +5,5 @@ The Dockerfile builds and starts a Nexus repository and configures the JBoss Ent
 Usage:
 ```
 $ docker build -t nexus .
-$ docker run -d -p 9000:8081 nexus
+$ docker run -d -p 8081:8081 nexus
 ```
