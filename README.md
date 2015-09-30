@@ -2,15 +2,28 @@
 
 This repo contains Dockerfiles for running a set of Continuous Integration Tools with a single command.
 
+## Prerequisites (Mac)
+
+You should have Docker Toolbox installed.
+
+I am using docker-compose to start several docker container at once.
+Since all containers run in a single VM (virtualbox), this VM needs enough memory.
+
+1. Therefore, stop your docker VM.
+
 ```
 docker-machine stop default
 ```
 
-Increase Memory to min. 6000MB
+2. Increase Memory via VirtualBox UI (I am using 6000MB for my VM)
+
+3. Start VM
 
 ```
 docker-machine start default
 ```
+
+## Getting started
 
 To get all docker containers up and running use:
 
@@ -34,18 +47,21 @@ To access GitLab, go to:
 
 - http://${boot2docker ip}:10080/
 
-## Installed Software
+### Installed Software
 
 - Jenkins (no login required)
 - SonarQube (admin/admin)
 - Nexus (admin/admin123)
 - Gitlab (root/5iveL!fe)
 
-### Jenkins Build Jobs
+## Jenkins Build Jobs
 
-- Build & Deploy to Nexus
+There are several jobs preconfigured in Jenkins.
+The Jobs cover the following tasks:
 
-## Additional ToDo
-
-- Sonar analysis with JaCoCo
-- Test Coverage
+- Continuous Integration Build with Maven
+- Unit Tests
+- Static Source Analysis results are stored in SonarQube
+- JaCoCo Test Coverage
+- Deployment to Nexus
+- Jenkins Job DSL examples
