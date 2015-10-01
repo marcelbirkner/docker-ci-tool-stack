@@ -32,24 +32,19 @@ docker-machine start default
 To get all docker containers up and running use:
 
 ```
+git clone git@github.com:marcelbirkner/docker-ci-tool-stack.git
+cd docker-ci-tool-stack
 docker-compose up
 ```
 
-To access Jenkins, go to:
+## Access Tools 
 
-- http://${docker-machine ip default}:8080/jenkins/
-
-To access the SonarQube dashboard, go to:
-
-- http://${docker-machine ip default}:9000/
-
-To access the Nexus artifact Repository, go to:
-
-- http://${docker-machine ip default}:8081/nexus
-
-To access GitLab, go to:
-
-- http://${docker-machine ip default}:10080/
+| *Tool* | *Link* |
+| ------------- | ------------- |
+| Jenkins | http://${docker-machine ip default}:8080/jenkins/ |
+| SonarQube | http://${docker-machine ip default}:9000/ |
+| Nexus | http://${docker-machine ip default}:8081/nexus |
+| GitLab | http://${docker-machine ip default}:10080/ |
 
 ## Screenshots
 
