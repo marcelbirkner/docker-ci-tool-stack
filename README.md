@@ -15,9 +15,11 @@ Since all containers run in a single VM (virtualbox), this VM needs enough memor
 docker-machine stop default
 ```
 
-### Step 2 - Increase Memory via VirtualBox UI (I am using 6000MB for my VM)
+### Step 2 - Increase Memory via VirtualBox UI
 
+I am using 6000MB for my VM.
 
+![VirtualBox](screenshots/virtualbox.png)
 
 ### Step 3 - Start VM
 
