@@ -33,19 +33,19 @@ docker-compose up
 
 To access Jenkins, go to:
 
-- http://${boot2docker ip}:8080/jenkins/
+- http://${docker-machine ip default}:8080/jenkins/
 
 To access the SonarQube dashboard, go to:
 
-- http://${boot2docker ip}:9000/
+- http://${docker-machine ip default}:9000/
 
 To access the Nexus artifact Repository, go to:
 
-- http://${boot2docker ip}:8081/nexus
+- http://${docker-machine ip default}:8081/nexus
 
 To access GitLab, go to:
 
-- http://${boot2docker ip}:10080/
+- http://${docker-machine ip default}:10080/
 
 ## Screenshots
 
