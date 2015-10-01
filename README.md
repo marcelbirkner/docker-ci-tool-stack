@@ -60,18 +60,17 @@ Here is an overview of all tools:
 
 ### Jenkins Jobs
 
-![Docker CI Tools](jenkins-jobs-1.png)
+![Conference App Jobs](screenshots/jenkins-jobs-1.png)
 
-![Docker CI Tools](jenkins-jobs-2-conference-app-ci.png)
+![Conference App CI Job](screenshots/jenkins-jobs-2-conference-app-ci.png)
 
-### Jenkins Jobs
+### SonarQube Dashboard
 
-![Docker CI Tools](sonar-analysis-conference-app.png)
+![Jenkins Jobs](screenshots/sonar-analysis-conference-app.png)
 
-### Nexus
+### Nexus Repository
 
-
-nexus.png
+![Nexus Proxy Repository](screenshots/nexus.png)
 
 ### Credentials
 
