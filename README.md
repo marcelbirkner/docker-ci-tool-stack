@@ -4,20 +4,20 @@ This repo contains Dockerfiles for running a set of Continuous Integration Tools
 
 ## Prerequisites (Mac)
 
-You should have Docker Toolbox installed.
+You should have Docker Toolbox installed, see https://www.docker.com/toolbox
 
 I am using docker-compose to start several docker container at once.
 Since all containers run in a single VM (virtualbox), this VM needs enough memory.
 
-1. Therefore, stop your docker VM.
+1 - Therefore, stop your docker VM.
 
 ```
 docker-machine stop default
 ```
 
-2. Increase Memory via VirtualBox UI (I am using 6000MB for my VM)
+2 - Increase Memory via VirtualBox UI (I am using 6000MB for my VM)
 
-3. Start VM
+3 - Start VM
 
 ```
 docker-machine start default
