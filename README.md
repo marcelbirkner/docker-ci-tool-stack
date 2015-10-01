@@ -1,6 +1,6 @@
 # CI Tools Demo
 
-This repo contains Dockerfiles for running a set of Continuous Integration Tools with a single command.
+This GitHub repository contains Dockerfiles for running a set of Continuous Integration Tools with a single command.
 
 ## Prerequisites (Mac)
 
