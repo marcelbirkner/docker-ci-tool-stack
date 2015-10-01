@@ -47,7 +47,33 @@ To access GitLab, go to:
 
 - http://${boot2docker ip}:10080/
 
-### Installed Software
+## Screenshots
+
+Here is an overview of all tools:
+
+- GitLab is used for storing the Sourcecode
+- Jenkins contains build job and is triggered once projects in GitLab are updated
+- As part of the CI build, Jenkins triggers a static code analysis and the results are stored in SonarQube
+- The Maven build uses Nexus as a Proxy Repository for all 3rd party libs. The build artefacts are deployed to the Nexus Release Repository
+
+![Docker CI Tools](screenshots/docker-ci-tools.png)
+
+### Jenkins Jobs
+
+![Docker CI Tools](jenkins-jobs-1.png)
+
+![Docker CI Tools](jenkins-jobs-2-conference-app-ci.png)
+
+### Jenkins Jobs
+
+![Docker CI Tools](sonar-analysis-conference-app.png)
+
+### Nexus
+
+
+nexus.png
+
+### Credentials
 
 - Jenkins (no login required)
 - SonarQube (admin/admin)
