@@ -12,7 +12,8 @@ Since all containers run in a single VM (virtualbox), this VM needs enough memor
 ### Step 0 - List Docker Machine
 
 ```
-docker-machine ls
+~/git/docker-ci-tool-stack$ docker-machine ls
+
 NAME      ACTIVE   DRIVER       STATE     URL                         SWARM
 default   *        virtualbox   Running   tcp://192.168.99.100:2376
 ```
