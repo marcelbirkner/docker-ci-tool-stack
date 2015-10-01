@@ -1,6 +1,6 @@
 # CI Tools Demo
 
-This repo contains Dockerfiles for running a set of Continuous Integration Tools with a single command.
+This GitHub repository contains Dockerfiles for running a set of Continuous Integration Tools with a single command.
 
 ## Prerequisites (Mac)
 
@@ -9,7 +9,7 @@ You should have Docker Toolbox installed, see https://www.docker.com/toolbox
 I am using docker-compose to start several docker container at once.
 Since all containers run in a single VM (virtualbox), this VM needs enough memory.
 
-### Step 1 - stop your docker VM.
+### Step 1 - Stop your docker VM
 
 ```
 docker-machine stop default
@@ -32,24 +32,19 @@ docker-machine start default
 To get all docker containers up and running use:
 
 ```
+git clone git@github.com:marcelbirkner/docker-ci-tool-stack.git
+cd docker-ci-tool-stack
 docker-compose up
 ```
 
-To access Jenkins, go to:
+## Access Tools 
 
-- http://${docker-machine ip default}:8080/jenkins/
-
-To access the SonarQube dashboard, go to:
-
-- http://${docker-machine ip default}:9000/
-
-To access the Nexus artifact Repository, go to:
-
-- http://${docker-machine ip default}:8081/nexus
-
-To access GitLab, go to:
-
-- http://${docker-machine ip default}:10080/
+| *Tool* | *Link* | *Credentials* |
+| ------------- | ------------- | ------------- |
+| Jenkins | http://${docker-machine ip default}:8080/jenkins/ | no login required |
+| SonarQube | http://${docker-machine ip default}:9000/ | admin/admin |
+| Nexus | http://${docker-machine ip default}:8081/nexus | admin/admin123 |
+| GitLab | http://${docker-machine ip default}:10080/ | root/5iveL!fe |
 
 ## Screenshots
 
@@ -75,13 +70,6 @@ Here is an overview of all tools:
 ### Nexus Repository
 
 ![Nexus Proxy Repository](screenshots/nexus.png)
-
-### Credentials
-
-- Jenkins (no login required)
-- SonarQube (admin/admin)
-- Nexus (admin/admin123)
-- Gitlab (root/5iveL!fe)
 
 ## Jenkins Build Jobs
 
