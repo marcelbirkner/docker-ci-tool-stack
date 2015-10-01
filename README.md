@@ -9,7 +9,7 @@ You should have Docker Toolbox installed, see https://www.docker.com/toolbox
 I am using docker-compose to start several docker container at once.
 Since all containers run in a single VM (virtualbox), this VM needs enough memory.
 
-### Step 1 - stop your docker VM.
+### Step 1 - Stop your docker VM
 
 ```
 docker-machine stop default
