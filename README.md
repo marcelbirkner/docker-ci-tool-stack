@@ -39,12 +39,13 @@ docker-compose up
 
 ## Access Tools 
 
-| *Tool* | *Link* |
-| ------------- | ------------- |
-| Jenkins | http://${docker-machine ip default}:8080/jenkins/ |
-| SonarQube | http://${docker-machine ip default}:9000/ |
-| Nexus | http://${docker-machine ip default}:8081/nexus |
-| GitLab | http://${docker-machine ip default}:10080/ |
+- 
+| *Tool* | *Link* | *Credentials* |
+| ------------- | ------------- |  ------------- |
+| Jenkins | http://${docker-machine ip default}:8080/jenkins/ | no login required |
+| SonarQube | http://${docker-machine ip default}:9000/ | admin/admin |
+| Nexus | http://${docker-machine ip default}:8081/nexus | admin/admin123 |
+| GitLab | http://${docker-machine ip default}:10080/ | root/5iveL!fe |
 
 ## Screenshots
 
@@ -70,13 +71,6 @@ Here is an overview of all tools:
 ### Nexus Repository
 
 ![Nexus Proxy Repository](screenshots/nexus.png)
-
-### Credentials
-
-- Jenkins (no login required)
-- SonarQube (admin/admin)
-- Nexus (admin/admin123)
-- Gitlab (root/5iveL!fe)
 
 ## Jenkins Build Jobs
 
