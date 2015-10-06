@@ -46,7 +46,7 @@ cd docker-ci-tool-stack
 docker-compose up
 ```
 
-## Access Tools 
+## Access Tools
 
 | *Tool* | *Link* | *Credentials* |
 | ------------- | ------------- | ------------- |
@@ -54,6 +54,7 @@ docker-compose up
 | SonarQube | http://${docker-machine ip default}:9000/ | admin/admin |
 | Nexus | http://${docker-machine ip default}:8081/nexus | admin/admin123 |
 | GitLab | http://${docker-machine ip default}:10080/ | root/5iveL!fe |
+| Selenium Grid | http://${docker-machine ip default}:4444/grid/console | no login required |
 
 ## Screenshots
 
@@ -63,10 +64,21 @@ Here is an overview of all tools:
 - Jenkins contains build job and is triggered once projects in GitLab are updated
 - As part of the CI build, Jenkins triggers a static code analysis and the results are stored in SonarQube
 - The Maven build uses Nexus as a Proxy Repository for all 3rd party libs. The build artefacts are deployed to the Nexus Release Repository
+- The Selenium Grid contains Docker containers running Chrome and Firefox and is used for UI tests
 
 ![Docker CI Tools](screenshots/docker-ci-tools.png)
 
 ### Jenkins Jobs
+
+There are several jobs preconfigured in Jenkins.
+The Jobs cover the following tasks:
+
+- Continuous Integration Build with Maven
+- Unit Tests
+- Static Source Analysis results are stored in SonarQube
+- JaCoCo Test Coverage
+- Deployment to Nexus
+- Jenkins Job DSL examples
 
 ![Conference App Jobs](screenshots/jenkins-jobs-1.png)
 
@@ -80,14 +92,6 @@ Here is an overview of all tools:
 
 ![Nexus Proxy Repository](screenshots/nexus.png)
 
-## Jenkins Build Jobs
+### Selenium Grid
 
-There are several jobs preconfigured in Jenkins.
-The Jobs cover the following tasks:
-
-- Continuous Integration Build with Maven
-- Unit Tests
-- Static Source Analysis results are stored in SonarQube
-- JaCoCo Test Coverage
-- Deployment to Nexus
-- Jenkins Job DSL examples
+![Selenium Grid](screenshots/selenium-grid.png)

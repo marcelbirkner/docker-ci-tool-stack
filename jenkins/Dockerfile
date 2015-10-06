@@ -7,6 +7,7 @@ RUN /usr/local/bin/plugins.sh /var/jenkins_home/plugins.txt
 COPY jobs/1-github-seed-job.xml /usr/share/jenkins/ref/jobs/1-github-seed-job/config.xml
 COPY jobs/2-job-dsl-seed-job.xml /usr/share/jenkins/ref/jobs/2-job-dsl-seed-job/config.xml
 COPY jobs/3-conference-app-seed-job.xml /usr/share/jenkins/ref/jobs/3-conference-app-seed-job/config.xml
+COPY jobs/4-selenium2-maven-test.xml /usr/share/jenkins/ref/jobs/4-selenium2-maven-test/config.xml
 COPY jobs/6-conference-app-ci.xml /usr/share/jenkins/ref/jobs/conference-app-1-ci/config.xml
 COPY jobs/6-conference-app-sonar-analysis.xml /usr/share/jenkins/ref/jobs/conference-app-2-sonar-analysis/config.xml
 COPY jobs/7-conference-app-monitoring-ci.xml /usr/share/jenkins/ref/jobs/conference-app-monitoring-1-ci/config.xml
