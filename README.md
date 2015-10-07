@@ -1,6 +1,9 @@
 # CI Tools Demo
 
 This GitHub repository contains Dockerfiles for running a set of Continuous Integration Tools with a single command.
+The diagram contains all tools used in the Docker containers.
+
+![Docker CI Tools](screenshots/docker-ci-tools.png)
 
 ## Prerequisites (Mac)
 
@@ -65,8 +68,6 @@ Here is an overview of all tools:
 - As part of the CI build, Jenkins triggers a static code analysis and the results are stored in SonarQube
 - The Maven build uses Nexus as a Proxy Repository for all 3rd party libs. The build artefacts are deployed to the Nexus Release Repository
 - The Selenium Grid contains Docker containers running Chrome and Firefox and is used for UI tests
-
-![Docker CI Tools](screenshots/docker-ci-tools.png)
 
 ### Jenkins Jobs
 
