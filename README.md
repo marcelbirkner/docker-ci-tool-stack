@@ -79,6 +79,7 @@ The Jobs cover the following tasks:
 - JaCoCo Test Coverage
 - Deployment to Nexus
 - Jenkins Job DSL examples
+- Selenium UI Test
 
 ![Conference App Jobs](screenshots/jenkins-jobs-1.png)
 
