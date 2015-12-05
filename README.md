@@ -5,6 +5,8 @@ The diagram contains all tools used in the Docker containers.
 
 ![Docker CI Tools](screenshots/docker-ci-tools.png)
 
+Blog article on the CI Docker Container, https://blog.codecentric.de/en/2015/10/continuous-integration-platform-using-docker-container-jenkins-sonarqube-nexus-gitlab
+
 ## Prerequisites (Mac)
 
 You should have Docker Toolbox installed, see https://www.docker.com/toolbox
