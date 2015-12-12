@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <description></description>
+  <description>Generates for all @MarcelBirkner GitHub Repositories a Jenkins Job using Groovy JSON Slurper and GitHub REST API</description>
   <logRotator class="hudson.tasks.LogRotator">
     <daysToKeep>-1</daysToKeep>
     <numToKeep>10</numToKeep>

@@ -1,4 +1,4 @@
-credentials:1.21
+credentials:1.24
 git:2.4.0
 git-client:1.19.0
 scm-api:0.2
@@ -8,13 +8,13 @@ plugin-usage-plugin:0.3
 credentials:1.23
 groovy:1.27
 job-dsl:1.38
-github-api:1.69
-github:1.13.3
+github-api:1.71
+github:1.14.0
 plain-credentials:1.1
 cloudbees-credentials:3.3
 config-file-provider:2.9.3
 token-macro:1.5.1
 parameterized-trigger:2.29
 clone-workspace-scm:0.6
-chucknorris:0.5
-xvfb:1.0.16
+chucknorris:0.9.1
+xvfb:1.1.2
