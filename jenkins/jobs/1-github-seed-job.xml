@@ -15,7 +15,22 @@
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
   </properties>
-  <scm class="hudson.scm.NullSCM"/>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.0">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>https://github.com/marcelbirkner/docker-ci-tool-stack</url>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/master</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions/>
+  </scm>
   <canRoam>true</canRoam>
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
@@ -28,44 +43,8 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <javaposse.jobdsl.plugin.ExecuteDslScripts plugin="job-dsl@1.38">
-      <scriptText>def githubApi = new URL(&quot;https://api.github.com/users/marcelbirkner/repos&quot;)
-def projects = new groovy.json.JsonSlurper().parse(githubApi.newReader())
-
-projects.each {
-  def jobName=it.name
-  def githubName=it.full_name
-  def gitUrl=it.ssh_url
-  println &quot;Creating Job ${jobName} for ${gitUrl}&quot;
-
-  job(&quot;GitHub-${jobName}&quot;) {
-    logRotator(-1, 10)
-    scm {
-        github(githubName, &apos;master&apos;)
-    }
-    triggers {
-        githubPush()
-    }
-  }
-}
-
-listView(&apos;MB GitHub Jobs&apos;) {
-    description(&apos;&apos;)
-    filterBuildQueue()
-    filterExecutors()
-    jobs {
-        regex(/GitHub-.*/)
-    }
-    columns {
-        status()
-        weather()
-        name()
-        lastSuccess()
-        lastFailure()
-        lastDuration()
-        buildButton()
-    }
-}</scriptText>
-      <usingScriptText>true</usingScriptText>
+      <targets>jenkins/seedjobs/1-github-seed-jobs.groovy</targets>
+      <usingScriptText>false</usingScriptText>
       <ignoreExisting>false</ignoreExisting>
       <removedJobAction>DELETE</removedJobAction>
       <removedViewAction>DELETE</removedViewAction>

@@ -15,7 +15,22 @@
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
   </properties>
-  <scm class="hudson.scm.NullSCM"/>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.0">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>https://github.com/marcelbirkner/docker-ci-tool-stack</url>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/master</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions/>
+  </scm>
   <canRoam>true</canRoam>
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
@@ -28,74 +43,8 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <javaposse.jobdsl.plugin.ExecuteDslScripts plugin="job-dsl@1.38">
-      <scriptText>// Example from https://jenkinsci.github.io/job-dsl-plugin/
-
-def giturl = &apos;https://github.com/quidryan/aws-sdk-test.git&apos;
-for(i in 0..10) {
-  job(&quot;Job-DSL-Tutorial-1-Test-${i}&quot;) {
-    scm {
-      git {
-        remote {
-          url(giturl)
-        }
-        createTag(false)
-        clean()
-      }
-    }
-    triggers {
-        scm(&apos;15/H * * * *&apos;)
-        githubPush()
-    }
-    steps {
-      maven {
-        goals(&apos;clean&apos;)
-        goals(&apos;verify&apos;)
-        goals(&quot;test -Dtest.suite=${i}&quot;)
-        mavenOpts(&apos;-Xms256m&apos;)
-        mavenOpts(&apos;-Xmx512m&apos;)
-        properties(skipTests: true)
-        mavenInstallation(&apos;Maven 3.3.3&apos;)
-      }
-    }
-  }
-}
-
-listView(&apos;Seed Jobs&apos;) {
-    description(&apos;&apos;)
-    filterBuildQueue()
-    filterExecutors()
-    jobs {
-        regex(/.*seed-job.*/)
-    }
-    columns {
-        status()
-        weather()
-        name()
-        lastSuccess()
-        lastFailure()
-        lastDuration()
-        buildButton()
-    }
-}
-
-listView(&apos;DSL Tutorial Jobs&apos;) {
-    description(&apos;&apos;)
-    filterBuildQueue()
-    filterExecutors()
-    jobs {
-        regex(/.*Tutorial.*/)
-    }
-    columns {
-        status()
-        weather()
-        name()
-        lastSuccess()
-        lastFailure()
-        lastDuration()
-        buildButton()
-    }
-}</scriptText>
-      <usingScriptText>true</usingScriptText>
+      <targets>jenkins/seedjobs/2-job-dsl-seed-job.groovy</targets>
+      <usingScriptText>false</usingScriptText>
       <ignoreExisting>false</ignoreExisting>
       <removedJobAction>DELETE</removedJobAction>
       <removedViewAction>DELETE</removedViewAction>
