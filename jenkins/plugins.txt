@@ -12,7 +12,7 @@ github-api:1.71
 github:1.14.0
 plain-credentials:1.1
 cloudbees-credentials:3.3
-config-file-provider:2.9.3
+config-file-provider:2.10.0
 token-macro:1.5.1
 parameterized-trigger:2.29
 clone-workspace-scm:0.6
