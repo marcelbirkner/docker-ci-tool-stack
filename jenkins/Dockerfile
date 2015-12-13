@@ -1,4 +1,4 @@
-FROM jenkins
+FROM jenkins:1.625.3
 
 COPY plugins.txt /var/jenkins_home/plugins.txt
 RUN /usr/local/bin/plugins.sh /var/jenkins_home/plugins.txt
