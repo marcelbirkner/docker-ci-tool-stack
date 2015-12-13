@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <settings xmlns="http://maven.apache.org/SETTINGS/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
-  <servers>
+
+    <servers>
       <server>
         <id>nexus-release-repository</id>
         <username>admin</username>
         <password>admin123</password>
       </server>
     </servers>
+
+    <mirrors>
+      <mirror>
+        <!--This sends everything else to /public -->
+        <id>nexus</id>
+        <mirrorOf>*</mirrorOf>
+        <url>http://${DOCKERCITOOLSTACK_NEXUS_1_PORT_8081_TCP_ADDR}:${DOCKERCITOOLSTACK_NEXUS_1_PORT_8081_TCP_PORT}/nexus/content/groups/public</url>
+      </mirror>
+    </mirrors>
+
     <profiles>
       <profile>
           <id>sonar</id>
@@ -24,5 +35,30 @@
               <sonar.host.url>http://${DOCKERCITOOLSTACK_SONAR_1_PORT_5432_TCP_ADDR}:9000</sonar.host.url>
           </properties>
       </profile>
-	</profiles>
+      <profile>
+        <id>nexus</id>
+        <!--Enable snapshots for the built in central repo to direct -->
+        <!--all requests to nexus via the mirror -->
+        <repositories>
+          <repository>
+            <id>central</id>
+            <url>http://central</url>
+            <releases><enabled>true</enabled></releases>
+            <snapshots><enabled>true</enabled></snapshots>
+          </repository>
+        </repositories>
+       <pluginRepositories>
+          <pluginRepository>
+            <id>central</id>
+            <url>http://central</url>
+            <releases><enabled>true</enabled></releases>
+            <snapshots><enabled>true</enabled></snapshots>
+          </pluginRepository>
+        </pluginRepositories>
+      </profile>
+    </profiles>
+    <activeProfiles>
+      <!--make the profile active all the time -->
+      <activeProfile>nexus</activeProfile>
+    </activeProfiles>
 </settings>

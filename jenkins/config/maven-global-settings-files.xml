@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<org.jenkinsci.plugins.configfiles.maven.DefaultGlobalMavenSettingsProvider plugin="config-file-provider@2.9.3">
+<org.jenkinsci.plugins.configfiles.maven.DefaultGlobalMavenSettingsProvider plugin="config-file-provider@2.10.0">
   <configs>
     <entry>
       <string>org.jenkinsci.plugins.configfiles.maven.GlobalMavenSettingsConfig1435422191538</string>
