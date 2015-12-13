@@ -7,7 +7,7 @@ jobConfigHistory:2.12
 plugin-usage-plugin:0.3
 credentials:1.23
 groovy:1.27
-job-dsl:1.38
+job-dsl:1.40
 github-api:1.71
 github:1.14.0
 plain-credentials:1.1
