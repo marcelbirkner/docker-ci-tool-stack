@@ -13,6 +13,10 @@ job("conference-app-1-ci") {
       clean()
     }
   }
+  wrappers {
+    colorizeOutput()
+    preBuildCleanup()
+  }
   triggers {
     scm('30/H * * * *')
     githubPush()
@@ -51,6 +55,10 @@ job("conference-app-2-sonar") {
   scm {
     cloneWorkspace("conference-app-1-ci")
   }
+  wrappers {
+    colorizeOutput()
+    preBuildCleanup()
+  }
   steps {
     maven {
       goals('org.jacoco:jacoco-maven-plugin:0.7.4.201502262128:prepare-agent install -Psonar')
@@ -84,6 +92,10 @@ job("conference-app-monitoring-1-ci") {
       createTag(false)
       clean()
     }
+  }
+  wrappers {
+    colorizeOutput()
+    preBuildCleanup()
   }
   triggers {
     scm('30/H * * * *')
@@ -121,6 +133,10 @@ job("conference-app-monitoring-2-sonar") {
   }
   scm {
     cloneWorkspace("conference-app-monitoring-1-ci")
+  }
+  wrappers {
+    colorizeOutput()
+    preBuildCleanup()
   }
   steps {
     maven {
