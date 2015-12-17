@@ -31,7 +31,7 @@ listView('Selenium') {
     filterBuildQueue()
     filterExecutors()
     jobs {
-        regex(/.*selenium.*/)
+        regex(/selenium.*/)
     }
     columns {
         status()
