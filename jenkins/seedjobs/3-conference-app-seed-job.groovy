@@ -174,11 +174,11 @@ listView('Conference App') {
     }
     columns {
         status()
+        buildButton()
         weather()
         name()
         lastSuccess()
         lastFailure()
         lastDuration()
-        buildButton()
     }
 }
