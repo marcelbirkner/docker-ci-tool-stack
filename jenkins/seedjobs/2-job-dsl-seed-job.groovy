@@ -48,7 +48,7 @@ listView('Seed Jobs') {
     }
 }
 
-listView('DSL Tutorial Jobs') {
+listView('Job DSL Tutorial') {
     description('')
     filterBuildQueue()
     filterExecutors()
