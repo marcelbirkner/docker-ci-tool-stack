@@ -88,11 +88,11 @@ listView('Movie Database') {
     }
     columns {
         status()
+        buildButton()
         weather()
         name()
         lastSuccess()
         lastFailure()
         lastDuration()
-        buildButton()
     }
 }
