@@ -13,31 +13,46 @@ You should have Docker Toolbox installed, see https://www.docker.com/toolbox
 I am using docker-compose to start several docker container at once.
 Since all containers run in a single VM (virtualbox), this VM needs enough memory.
 
-### Step 0 - List Docker Machine
+### Step 0 - Check Docker Machine version
+
+Ensure that you are using version 0.3.0 or greater of `docker-machine`
 
 ```
-~/git/docker-ci-tool-stack$ docker-machine ls
-
-NAME      ACTIVE   DRIVER       STATE     URL                         SWARM
-default   *        virtualbox   Running   tcp://192.168.99.100:2376
+# docker-machine version
+docker-machine version 0.5.4, build
 ```
 
-### Step 1 - Stop your docker VM
+### Step 1 - Start Docker Machine
+
+Start the machine, using the `--virtualbox-memory` option to increase it’s memory.
+I use 6000 MB to accommodate all the docker images.
 
 ```
-docker-machine stop default
+# docker-machine create -d virtualbox --virtualbox-memory “6000” default
+Running pre-create checks...
+Creating machine...
+(default) Creating VirtualBox VM...
+(default) Creating SSH key...
+(default) Starting VM...
+Waiting for machine to be running, this may take a few minutes...
+Machine is running, waiting for SSH to be available...
+Detecting operating system of created instance...
+Detecting the provisioner...
+Provisioning with boot2docker...
+Copying certs to the local machine directory...
+Copying certs to the remote machine...
+Setting Docker configuration on the remote daemon...
+Checking connection to Docker...
+Docker is up and running!
+To see how to connect Docker to this machine, run: docker-machine env default
 ```
 
-### Step 2 - Increase Memory via VirtualBox UI
+### Step 2 - Set Docker Machine Connection
 
-I am using 6000MB for my VM.
-
-![VirtualBox](screenshots/virtualbox.png)
-
-### Step 3 - Start VM
+Configure shell environment to connect to your new Docker instance
 
 ```
-docker-machine start default
+# eval “$(docker-machine env default)”
 ```
 
 ## Getting started
@@ -45,9 +60,9 @@ docker-machine start default
 To get all docker containers up and running use:
 
 ```
-git clone git@github.com:marcelbirkner/docker-ci-tool-stack.git
-cd docker-ci-tool-stack
-docker-compose up
+# git clone git@github.com:marcelbirkner/docker-ci-tool-stack.git
+# cd docker-ci-tool-stack
+# docker-compose up
 ```
 
 ## Access Tools
@@ -106,14 +121,8 @@ That eliminates any side effects. Afterwards you can throw away the image.
 
 ```
 # Create new image
-docker-machine create --driver virtualbox docker-ci-v1
+docker-machine create --driver virtualbox --virtualbox-memory “6000” docker-ci-v1
 
 # Configure shell environment
 eval "$(docker-machine env docker-ci-v1)"
-
-# Stop new image, in order to increase Memory via VirtualBox Manager
-docker-machine stop docker-ci-v1
-
-# Start image
-docker-machine start docker-ci-v1
 ```
