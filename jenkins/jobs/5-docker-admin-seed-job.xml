@@ -46,7 +46,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <javaposse.jobdsl.plugin.ExecuteDslScripts plugin="job-dsl@1.38">
-      <targets>jenkins/seedjobs/5-docker-admin-seed-job.groovy</targets>
+      <targets>jenkins/seedjobs/docker-admin-seed-job.groovy</targets>
       <usingScriptText>false</usingScriptText>
       <ignoreExisting>false</ignoreExisting>
       <removedJobAction>DELETE</removedJobAction>
