@@ -49,7 +49,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <javaposse.jobdsl.plugin.ExecuteDslScripts plugin="job-dsl@1.40">
-      <targets>jenkins/seedjobs/selenium2-maven-project-seed-job.groovy</targets>
+      <targets>jenkins/seedjobs/selenium2MavenProjectSeedJob.groovy</targets>
       <usingScriptText>false</usingScriptText>
       <ignoreExisting>false</ignoreExisting>
       <removedJobAction>DELETE</removedJobAction>
