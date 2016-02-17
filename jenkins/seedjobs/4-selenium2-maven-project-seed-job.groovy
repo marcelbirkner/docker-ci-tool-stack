@@ -26,3 +26,20 @@ job("selenium2-maven-project") {
     archiveJunit('**/target/surefire-reports/*.xml')
   }
 }
+listView('Selenium') {
+    description('')
+    filterBuildQueue()
+    filterExecutors()
+    jobs {
+        regex(/selenium.*/)
+    }
+    columns {
+        status()
+        buildButton()
+        weather()
+        name()
+        lastSuccess()
+        lastFailure()
+        lastDuration()
+    }
+}

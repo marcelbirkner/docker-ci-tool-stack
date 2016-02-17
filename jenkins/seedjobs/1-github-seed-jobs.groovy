@@ -27,11 +27,11 @@ listView('MB GitHub Jobs') {
     }
     columns {
         status()
+        buildButton()
         weather()
         name()
         lastSuccess()
         lastFailure()
         lastDuration()
-        buildButton()
     }
 }
