@@ -33,7 +33,7 @@ ENV JAVA_HOME /usr/lib/jvm/jre
 # Install Nexus
 ##########################################################
 RUN mkdir -p /opt/sonatype-nexus /opt/sonatype-work
-RUN wget -O /tmp/nexus-latest-bundle.tar.gz http://www.sonatype.org/downloads/nexus-latest-bundle.tar.gz
+RUN wget -O /tmp/nexus-latest-bundle.tar.gz https://sonatype-download.global.ssl.fastly.net/nexus/oss/nexus-2.12.1-01-bundle.tar.gz
 RUN tar xzvf /tmp/nexus-latest-bundle.tar.gz -C /opt/sonatype-nexus --strip-components=1
 RUN useradd --user-group --system --home-dir /opt/sonatype-nexus nexus
 
