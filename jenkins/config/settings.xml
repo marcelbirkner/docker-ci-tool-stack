@@ -14,7 +14,7 @@
         <!--This sends everything else to /public -->
         <id>nexus</id>
         <mirrorOf>*</mirrorOf>
-        <url>http://${DOCKERCITOOLSTACK_NEXUS_1_PORT_8081_TCP_ADDR}:${DOCKERCITOOLSTACK_NEXUS_1_PORT_8081_TCP_PORT}/nexus/content/groups/public</url>
+        <url>http://nexus:${NEXUS_PORT}/nexus/content/groups/public</url>
       </mirror>
     </mirrors>
 
@@ -26,13 +26,13 @@
           </activation>
           <properties>
               <sonar.jdbc.url>
-                jdbc:postgresql://${DOCKERCITOOLSTACK_SONAR_1_PORT_5432_TCP_ADDR}:${DOCKERCITOOLSTACK_SONAR_1_PORT_5432_TCP_PORT}/sonar
+                jdbc:postgresql://sonar:${SONAR_DB_PORT}/sonar
               </sonar.jdbc.url>
               <sonar.jdbc.username>sonar</sonar.jdbc.username>
               <sonar.jdbc.password>sonar</sonar.jdbc.password>
               <sonar.jdbc.driverClassName>org.postgresql.Driver</sonar.jdbc.driverClassName>
               <!-- Optional URL to server. Default value is http://localhost:9000 -->
-              <sonar.host.url>http://${DOCKERCITOOLSTACK_SONAR_1_PORT_5432_TCP_ADDR}:9000</sonar.host.url>
+              <sonar.host.url>http://sonar:${SONAR_PORT}</sonar.host.url>
           </properties>
       </profile>
       <profile>

@@ -1,9 +1,11 @@
-nexus:
+version: '2'
+services:
+ nexus:
   build: ./nexus
   ports:
     - "18081:8081"
 
-jenkins:
+ jenkins:
   build: ./jenkins
   ports:
     - "18080:8080"
@@ -15,59 +17,83 @@ jenkins:
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - /usr/local/bin/docker:/usr/bin/docker
+  depends_on:
+    - nexus
+    - gitlab
+    - sonar
+    - selhub
+  environment:
+    - NEXUS_PORT=8081
+    - SONAR_PORT=9000
+    - SONAR_DB_PORT=5432
 
-sonar:
+ sonar:
   build: ./sonar
   ports:
    - "19000:9000"
    - "5432:5432"
   environment:
    - SONARQUBE_JDBC_URL=jdbc:postgresql://localhost:5432/sonar
-db:
+ db:
+  network_mode: service:sonar
   image: postgres
-  net: container:sonar
   environment:
    - POSTGRES_USER=sonar
    - POSTGRES_PASSWORD=sonar
 
-selhub:
+ selhub:
   image: selenium/hub
   ports:
     - 4444:4444
 
-nodeff:
+ nodeff:
   image: selenium/node-firefox-debug
   ports:
     - 5900
   links:
-    - selhub:hub
+   - selhub:hub
+  environment:
+   - HUB_PORT_4444_TCP_ADDR=hub
+  depends_on:
+    - selhub
 
-nodechrome:
+ nodechrome:
   image: selenium/node-chrome-debug
   ports:
     - 5900
   links:
-    - selhub:hub
-
-postgresql:
-  image: sameersbn/postgresql:9.4-3
+   - selhub:hub
   environment:
-    - DB_USER=gitlab
-    - DB_PASS=password
-    - DB_NAME=gitlabhq_production
-  volumes:
-    - /srv/docker/gitlab/postgresql:/var/lib/postgresql
-gitlab:
+   - HUB_PORT_4444_TCP_ADDR=hub
+  depends_on:
+    - selhub
+
+ db2:
+  image: postgres
+  environment:
+    - POSTGRES_USER=gitlab
+    - POSTGRES_PASSWORD=gitlab
+    - POSTGRES_DB=gitlab
+ gitlab:
   image: sameersbn/gitlab:8.3.2
   links:
     - redis:redisio
-    - postgresql:postgresql
+    - db2:db2
   ports:
     - "10080:80"
     - "10022:22"
+  depends_on:
+    - db2
+    - redis
   environment:
-    - TZ=Europe/Berlin
-    - GITLAB_TIMEZONE=Berlin
+    - DB_HOST=db2
+    - DB_NAME=gitlab
+    - DB_USER=gitlab
+    - DB_PASS=gitlab
+    - REDIS_HOST=redisio
+
+    - TZ=Europe/Madrid
+    - GITLAB_TIMEZONE=Madrid
 
     - GITLAB_SECRETS_DB_KEY_BASE=long-and-random-alphanumeric-string
 
@@ -103,7 +129,7 @@ gitlab:
     - IMAP_STARTTLS=false
   volumes:
     - /srv/docker/gitlab/gitlab:/home/git/data
-redis:
+ redis:
   image: sameersbn/redis:latest
   volumes:
     - /srv/docker/gitlab/redis:/var/lib/redis
