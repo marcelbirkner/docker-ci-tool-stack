@@ -10,7 +10,7 @@ createDockerJob("docker-admin-stop-jenkins-container", 'sudo /usr/bin/docker sto
 def conferenceAppGitUrl="https://github.com/codecentric/conference-app"
 createDockerJob("docker-conference-app-build-container", "cd app && sudo /usr/bin/docker build -t conferenceapp .", conferenceAppGitUrl)
 createDockerJob("docker-conference-app-start-container", "sudo /usr/bin/docker run -d --name conferenceapp -p=48080:8080 conferenceapp", conferenceAppGitUrl)
-createDockerJob("docker-conference-app-stop-container", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=conferenceapp") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=conferenceapp")', "")
+createDockerJob("docker-conference-app-stop-container", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=conferenceapp") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=conferenceapp")', " ")
 
 def createDockerJob(def jobName, def shellCommand, def gitRepository) {
 
@@ -23,13 +23,19 @@ def createDockerJob(def jobName, def shellCommand, def gitRepository) {
         numToKeep(10)
     }
     if( "${gitRepository}".size() > 0 ) {
-      scm {
-        git {
-          remote {
-            url(gitRepository)
+      if( "${jobName}".contains("conference-app") ) {
+        scm {
+          cloneWorkspace("${jobName}-app-1-ci")
+        }
+      } else {
+        scm {
+          git {
+            remote {
+              url(gitRepository)
+            }
+            createTag(false)
+            clean()
           }
-          createTag(false)
-          clean()
         }
       }
     }
@@ -52,8 +58,8 @@ listView('admin docker') {
     regex(/docker-admin-.*/)
   }
   columns {
-    buildButton()
     status()
+    buildButton()
     weather()
     name()
     lastSuccess()
