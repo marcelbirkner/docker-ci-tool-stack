@@ -14,7 +14,7 @@
       &lt;!--This sends everything else to /public --&gt;
       &lt;id&gt;nexus&lt;/id&gt;
       &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;
-      &lt;url&gt;http://nexus:${NEXUS_PORT}/nexus/content/groups/public&lt;/url&gt;
+      &lt;url&gt;http://nexus:8081/nexus/content/groups/public&lt;/url&gt;
     &lt;/mirror&gt;
   &lt;/mirrors&gt;
   &lt;servers&gt;
@@ -32,12 +32,12 @@
           &lt;/activation&gt;
           &lt;properties&gt;
               &lt;sonar.jdbc.url&gt;
-                jdbc:postgresql://sonar:${SONAR_DB_PORT}/sonar
+                jdbc:postgresql://sonardb:5432/sonar
               &lt;/sonar.jdbc.url&gt;
               &lt;sonar.jdbc.username&gt;sonar&lt;/sonar.jdbc.username&gt;
               &lt;sonar.jdbc.password&gt;sonar&lt;/sonar.jdbc.password&gt;
               &lt;!-- Optional URL to server. Default value is http://localhost:9000 --&gt;
-              &lt;sonar.host.url&gt;http://sonar:${SONAR_PORT}&lt;/sonar.host.url&gt;
+              &lt;sonar.host.url&gt;http://sonar:9000&lt;/sonar.host.url&gt;
           &lt;/properties&gt;
       &lt;/profile&gt;
       &lt;profile&gt;

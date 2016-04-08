@@ -14,7 +14,7 @@
         <!--This sends everything else to /public -->
         <id>nexus</id>
         <mirrorOf>*</mirrorOf>
-        <url>http://nexus:${NEXUS_PORT}/nexus/content/groups/public</url>
+        <url>http://nexus:8081/nexus/content/groups/public</url>
       </mirror>
     </mirrors>
 
@@ -26,13 +26,13 @@
           </activation>
           <properties>
               <sonar.jdbc.url>
-                jdbc:postgresql://sonar:${SONAR_DB_PORT}/sonar
+                jdbc:postgresql://sonardb:5432/sonar
               </sonar.jdbc.url>
               <sonar.jdbc.username>sonar</sonar.jdbc.username>
               <sonar.jdbc.password>sonar</sonar.jdbc.password>
               <sonar.jdbc.driverClassName>org.postgresql.Driver</sonar.jdbc.driverClassName>
               <!-- Optional URL to server. Default value is http://localhost:9000 -->
-              <sonar.host.url>http://sonar:${SONAR_PORT}</sonar.host.url>
+              <sonar.host.url>http://sonar:9000</sonar.host.url>
           </properties>
       </profile>
       <profile>
