@@ -7,8 +7,8 @@ createDockerStartJob("conference-app", "app", "48080")
 
 createCiJob("conference-app-monitoring", gitUrl, "monitoring/pom.xml")
 createSonarJob("conference-app-monitoring", gitUrl, "monitoring/pom.xml")
-createDockerBuildJob("conference-app", "monitoring")
-createDockerStartJob("conference-app", "monitoring", "58080")
+createDockerBuildJob("conference-app-monitoring", "monitoring")
+createDockerStartJob("conference-app-monitoring", "monitoring", "58080")
 
 // createDockerJob("conference-app-build-container", "cd app && sudo /usr/bin/docker build -t conferenceapp .", conferenceAppGitUrl)
 // createDockerJob("conference-app-start-container", "sudo /usr/bin/docker run -d --name conferenceapp -p=48080:8080 conferenceapp", conferenceAppGitUrl)
@@ -156,7 +156,7 @@ def createDockerStartJob(def jobName, def folder, def port) {
           currentBuild()
         }
       }
-    }    
+    }
   }
 }
 
