@@ -1,19 +1,23 @@
 version: '2'
+
+networks:
+  prodnetwork:
+    driver: bridge
+
 services:
  nexus:
   build: ./nexus
   ports:
     - "18081:8081"
+  networks:
+    - prodnetwork
 
  jenkins:
   build: ./jenkins
   ports:
     - "18080:8080"
-  links:
-    - nexus:nexus
-    - gitlab:gitlab
-    - sonar:sonar
-    - selhub:hub
+  networks:
+    - prodnetwork
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - /usr/local/bin/docker:/usr/bin/docker
@@ -32,10 +36,15 @@ services:
   ports:
    - "19000:9000"
    - "5432:5432"
+  networks:
+    - prodnetwork
+  depends_on:
+    - sonardb
   environment:
-   - SONARQUBE_JDBC_URL=jdbc:postgresql://localhost:5432/sonar
- db:
-  network_mode: service:sonar
+   - SONARQUBE_JDBC_URL=jdbc:postgresql://sonardb:5432/sonar
+ sonardb:
+  networks:
+    - prodnetwork
   image: postgres
   environment:
    - POSTGRES_USER=sonar
@@ -45,15 +54,17 @@ services:
   image: selenium/hub
   ports:
     - 4444:4444
+  networks:
+    - prodnetwork
 
  nodeff:
   image: selenium/node-firefox-debug
   ports:
     - 5900
-  links:
-   - selhub:hub
+  networks:
+    - prodnetwork
   environment:
-   - HUB_PORT_4444_TCP_ADDR=hub
+   - HUB_PORT_4444_TCP_ADDR=selhub
   depends_on:
     - selhub
 
@@ -61,10 +72,10 @@ services:
   image: selenium/node-chrome-debug
   ports:
     - 5900
-  links:
-   - selhub:hub
+  networks:
+    - prodnetwork
   environment:
-   - HUB_PORT_4444_TCP_ADDR=hub
+   - HUB_PORT_4444_TCP_ADDR=selhub
   depends_on:
     - selhub
 
@@ -74,14 +85,15 @@ services:
     - POSTGRES_USER=gitlab
     - POSTGRES_PASSWORD=gitlab
     - POSTGRES_DB=gitlab
+  networks:
+    - prodnetwork
  gitlab:
   image: sameersbn/gitlab:8.3.2
-  links:
-    - redis:redisio
-    - db2:db2
   ports:
     - "10080:80"
     - "10022:22"
+  networks:
+    - prodnetwork
   depends_on:
     - db2
     - redis
@@ -131,5 +143,7 @@ services:
     - /srv/docker/gitlab/gitlab:/home/git/data
  redis:
   image: sameersbn/redis:latest
+  networks:
+    - prodnetwork
   volumes:
     - /srv/docker/gitlab/redis:/var/lib/redis
