@@ -25,7 +25,7 @@ def createDockerJob(def jobName, def shellCommand, def gitRepository) {
     if( "${gitRepository}".size() > 0 ) {
       if( "${jobName}".contains("conference-app") ) {
         scm {
-          cloneWorkspace("conference-app-app-1-ci")
+          cloneWorkspace("conference-app-1-ci")
         }
       } else {
         scm {
