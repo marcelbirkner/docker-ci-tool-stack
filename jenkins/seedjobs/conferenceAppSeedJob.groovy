@@ -4,15 +4,13 @@ createCiJob("conference-app", gitUrl, "app/pom.xml")
 createSonarJob("conference-app", gitUrl, "app/pom.xml")
 createDockerBuildJob("conference-app", "app")
 createDockerStartJob("conference-app", "app", "48080")
+createDockerStopJob("conference-app", "app")
 
 createCiJob("conference-app-monitoring", gitUrl, "monitoring/pom.xml")
 createSonarJob("conference-app-monitoring", gitUrl, "monitoring/pom.xml")
 createDockerBuildJob("conference-app-monitoring", "monitoring")
 createDockerStartJob("conference-app-monitoring", "monitoring", "58080")
-
-// createDockerJob("conference-app-build-container", "cd app && sudo /usr/bin/docker build -t conferenceapp .", conferenceAppGitUrl)
-// createDockerJob("conference-app-start-container", "sudo /usr/bin/docker run -d --name conferenceapp -p=48080:8080 conferenceapp", conferenceAppGitUrl)
-// createDockerJob("conference-app-stop-container", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=conferenceapp") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=conferenceapp")', " ")
+createDockerStopJob("conference-app-monitoring", "monitoring")
 
 def createCiJob(def jobName, def gitUrl, def pomFile) {
   job("${jobName}-1-ci") {
