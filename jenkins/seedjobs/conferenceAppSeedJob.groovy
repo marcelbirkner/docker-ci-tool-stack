@@ -1,4 +1,4 @@
-def giturl = 'https://github.com/codecentric/conference-app'
+def gitUrl = 'https://github.com/codecentric/conference-app'
 
 createCiJob("conference-app", gitUrl, "app/pom.xml")
 createSonarJob("conference-app", gitUrl, "app/pom.xml")
@@ -15,7 +15,7 @@ def createCiJob(def jobName, def gitUrl, def pomFile) {
     scm {
       git {
         remote {
-          url(giturl)
+          url(gitUrl)
         }
         createTag(false)
         clean()

@@ -39,12 +39,12 @@ listView('Seed Jobs') {
     }
     columns {
         status()
+        buildButton()
         weather()
         name()
         lastSuccess()
         lastFailure()
         lastDuration()
-        buildButton()
     }
 }
 
