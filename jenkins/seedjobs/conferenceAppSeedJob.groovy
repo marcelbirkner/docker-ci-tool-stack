@@ -125,10 +125,10 @@ def createDockerBuildJob(def jobName, def folder) {
     }
     publishers {
       chucknorris()
-    }
-    downstreamParameterized {
-      trigger("${jobName}-4-docker-start-container") {
-        currentBuild()
+      downstreamParameterized {
+        trigger("${jobName}-4-docker-start-container") {
+          currentBuild()
+        }
       }
     }
   }
@@ -151,12 +151,12 @@ def createDockerStartJob(def jobName, def folder, def port) {
     }
     publishers {
       chucknorris()
-    }
-    downstreamParameterized {
-      trigger("${jobName}-4-docker-start") {
-        currentBuild()
+      downstreamParameterized {
+        trigger("${jobName}-4-docker-start") {
+          currentBuild()
+        }
       }
-    }
+    }    
   }
 }
 
