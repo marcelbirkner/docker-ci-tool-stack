@@ -182,3 +182,20 @@ listView('Conference App') {
         lastDuration()
     }
 }
+listView('Conference App Docker') {
+    description('')
+    filterBuildQueue()
+    filterExecutors()
+    jobs {
+        regex(/docker-conference-app-.*/)
+    }
+    columns {
+        status()
+        buildButton()
+        weather()
+        name()
+        lastSuccess()
+        lastFailure()
+        lastDuration()
+    }
+}
