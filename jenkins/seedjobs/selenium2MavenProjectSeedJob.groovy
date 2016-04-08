@@ -15,7 +15,7 @@ job("selenium2-maven-project") {
   }
   steps {
     maven {
-        goals('clean test -Dgrid.server.url=http://\${DOCKERCITOOLSTACK_SELHUB_1_PORT_4444_TCP_ADDR}:4444/wd/hub')
+        goals('clean test -Dgrid.server.url=http://selhub:4444/wd/hub')
         mavenInstallation('Maven 3.3.3')
         mavenOpts('-Xms512m -Xmx1024m')
         providedGlobalSettings('MyGlobalSettings')

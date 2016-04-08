@@ -2,7 +2,7 @@ def giturl = 'https://github.com/codecentric/conference-app'
 job("conference-app-1-ci") {
   parameters {
     stringParam("BRANCH", "master", "Define TAG or BRANCH to build from")
-    stringParam("REPOSITORY_URL", "http://\${DOCKERCITOOLSTACK_NEXUS_1_PORT_8081_TCP_ADDR}:\${DOCKERCITOOLSTACK_NEXUS_1_PORT_8081_TCP_PORT}/nexus/content/repositories/releases/", "Nexus Release Repository URL")
+    stringParam("REPOSITORY_URL", "http://nexus:8081/nexus/content/repositories/releases/", "Nexus Release Repository URL")
   }
   scm {
     git {
@@ -82,7 +82,7 @@ job("conference-app-2-sonar") {
 job("conference-app-monitoring-1-ci") {
   parameters {
     stringParam("BRANCH", "master", "Define TAG or BRANCH to build from")
-    stringParam("REPOSITORY_URL", "http://\${DOCKERCITOOLSTACK_NEXUS_1_PORT_8081_TCP_ADDR}:\${DOCKERCITOOLSTACK_NEXUS_1_PORT_8081_TCP_PORT}/nexus/content/repositories/releases/", "Nexus Release Repository URL")
+    stringParam("REPOSITORY_URL", "http://nexus:8081/nexus/content/repositories/releases/", "Nexus Release Repository URL")
   }
   scm {
     git {
@@ -110,7 +110,7 @@ job("conference-app-monitoring-1-ci") {
         providedGlobalSettings('MyGlobalSettings')
     }
     maven {
-      goals('clean deploy')
+      goals('clean deploy -DaltDeploymentRepository=nexus-release-repository::default::$REPOSITORY_URL')
       mavenInstallation('Maven 3.3.3')
       rootPOM('monitoring/pom.xml')
       mavenOpts('-Xms512m -Xmx1024m')
