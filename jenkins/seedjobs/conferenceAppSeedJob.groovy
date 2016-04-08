@@ -151,11 +151,28 @@ def createDockerStartJob(def jobName, def folder, def port) {
     }
     publishers {
       chucknorris()
-      downstreamParameterized {
-        trigger("${jobName}-4-docker-start") {
-          currentBuild()
-        }
+    }
+  }
+}
+
+def createDockerStopJob(def jobName, def folder) {
+
+  println "############################################################################################################"
+  println "Creating Docker Stop Job for ${jobName} "
+  println "############################################################################################################"
+
+  job("${jobName}-5-docker-stop-container") {
+    logRotator {
+        numToKeep(10)
+    }
+    steps {
+      steps {
+        shell("sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter=\"name=conference-${folder}\")")
+        shell("sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter=\"name=conference-${folder}\")")
       }
+    }
+    publishers {
+      chucknorris()
     }
   }
 }
