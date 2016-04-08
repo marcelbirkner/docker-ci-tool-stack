@@ -2,9 +2,17 @@ def gitUrl = 'https://github.com/codecentric/conference-app'
 
 createCiJob("conference-app", gitUrl, "app/pom.xml")
 createSonarJob("conference-app", gitUrl, "app/pom.xml")
+createDockerBuildJob("conference-app", "app")
+createDockerStartJob("conference-app", "app", "48080")
 
 createCiJob("conference-app-monitoring", gitUrl, "monitoring/pom.xml")
 createSonarJob("conference-app-monitoring", gitUrl, "monitoring/pom.xml")
+createDockerBuildJob("conference-app", "monitoring")
+createDockerStartJob("conference-app", "monitoring", "58080")
+
+// createDockerJob("conference-app-build-container", "cd app && sudo /usr/bin/docker build -t conferenceapp .", conferenceAppGitUrl)
+// createDockerJob("conference-app-start-container", "sudo /usr/bin/docker run -d --name conferenceapp -p=48080:8080 conferenceapp", conferenceAppGitUrl)
+// createDockerJob("conference-app-stop-container", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=conferenceapp") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=conferenceapp")', " ")
 
 def createCiJob(def jobName, def gitUrl, def pomFile) {
   job("${jobName}-1-ci") {
@@ -88,6 +96,66 @@ def createSonarJob(def jobName, def gitUrl, def pomFile) {
     }
     publishers {
       chucknorris()
+      downstreamParameterized {
+        trigger("${jobName}-3-docker-build") {
+          currentBuild()
+        }
+      }
+    }
+  }
+}
+
+def createDockerBuildJob(def jobName, def folder) {
+
+  println "############################################################################################################"
+  println "Creating Docker Build Job for ${jobName} "
+  println "############################################################################################################"
+
+  job("${jobName}-3-docker-build") {
+    logRotator {
+        numToKeep(10)
+    }
+    scm {
+      cloneWorkspace("${jobName}-1-ci")
+    }
+    steps {
+      steps {
+        shell("cd ${folder} && sudo /usr/bin/docker build -t conference-${folder} .")
+      }
+    }
+    publishers {
+      chucknorris()
+    }
+    downstreamParameterized {
+      trigger("${jobName}-4-docker-start-container") {
+        currentBuild()
+      }
+    }
+  }
+}
+
+def createDockerStartJob(def jobName, def folder, def port) {
+
+  println "############################################################################################################"
+  println "Creating Docker Start Job for ${jobName} "
+  println "############################################################################################################"
+
+  job("${jobName}-4-docker-start-container") {
+    logRotator {
+        numToKeep(10)
+    }
+    steps {
+      steps {
+        shell("sudo /usr/bin/docker run -d --name conference-${folder} -p=${port}:8080 conference-${folder}")
+      }
+    }
+    publishers {
+      chucknorris()
+    }
+    downstreamParameterized {
+      trigger("${jobName}-4-docker-start") {
+        currentBuild()
+      }
     }
   }
 }
@@ -98,68 +166,6 @@ listView('Conference App') {
     filterExecutors()
     jobs {
         regex(/conference-app-.*/)
-    }
-    columns {
-        status()
-        buildButton()
-        weather()
-        name()
-        lastSuccess()
-        lastFailure()
-        lastDuration()
-    }
-}
-
-def conferenceAppGitUrl="https://github.com/codecentric/conference-app"
-createDockerJob("conference-app-build-container", "cd app && sudo /usr/bin/docker build -t conferenceapp .", conferenceAppGitUrl)
-createDockerJob("conference-app-start-container", "sudo /usr/bin/docker run -d --name conferenceapp -p=48080:8080 conferenceapp", conferenceAppGitUrl)
-createDockerJob("conference-app-stop-container", 'sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter="name=conferenceapp") && sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter="name=conferenceapp")', " ")
-
-def createDockerJob(def jobName, def shellCommand, def gitRepository) {
-
-  println "############################################################################################################"
-  println "Creating Docker Job ${jobName} for gitRepository=${gitRepository}"
-  println "############################################################################################################"
-
-  job(jobName) {
-    logRotator {
-        numToKeep(10)
-    }
-    if( "${gitRepository}".size() > 0 ) {
-      if( "${jobName}".contains("conference-app") ) {
-        scm {
-          cloneWorkspace("conference-app-1-ci")
-        }
-      } else {
-        scm {
-          git {
-            remote {
-              url(gitRepository)
-            }
-            createTag(false)
-            clean()
-          }
-        }
-      }
-    }
-    steps {
-      steps {
-        shell(shellCommand)
-      }
-    }
-    publishers {
-      chucknorris()
-    }
-  }
-}
-
-
-listView('Conference App Docker') {
-    description('')
-    filterBuildQueue()
-    filterExecutors()
-    jobs {
-        regex(/docker-conference-app-.*/)
     }
     columns {
         status()
