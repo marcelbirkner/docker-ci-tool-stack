@@ -186,7 +186,6 @@ buildPipelineView('Pipeline') {
     displayedBuilds(5)
     selectedJob("conference-app-1-ci")
     alwaysAllowManualTrigger()
-    showPipelineParameters()
     refreshFrequency(60)
 }
 

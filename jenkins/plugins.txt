@@ -26,3 +26,6 @@ docker-commons:1.3
 cloudbees-folder:5.1
 icon-shim:2.0.2
 authentication-tokens:1.1
+build-pipeline-plugin:1.5.2
+dashboard-view:2.2
+jquery:1.7.2-1
