@@ -56,7 +56,7 @@ def createCiJob(def jobName, def gitUrl, def pomFile) {
       archiveXUnit {
         jUnit {
           pattern('**/target/surefire-reports/*.xml')
-          skipNoTestFiles(false)
+          skipNoTestFiles(true)
           stopProcessingIfError(true)
         }
       }
