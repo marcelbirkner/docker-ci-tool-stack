@@ -21,11 +21,12 @@ services:
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - /usr/local/bin/docker:/usr/bin/docker
+    - /opt/jenkins/:/var/lib/jenkins/
   depends_on:
     - nexus
     - gitlab
     - sonar
-    - selhub
+    - seleniumhub
   environment:
     - NEXUS_PORT=8081
     - SONAR_PORT=9000
@@ -49,101 +50,49 @@ services:
   environment:
    - POSTGRES_USER=sonar
    - POSTGRES_PASSWORD=sonar
+  volumes:
+    - /opt/postgres/data:/var/lib/postgresql/data
 
- selhub:
+ seleniumhub:
   image: selenium/hub
   ports:
-    - 4444:4444
+    - "4444:4444"
   networks:
     - prodnetwork
-
  nodeff:
-  image: selenium/node-firefox-debug
+  image: selenium/node-firefox
   ports:
     - 5900
   networks:
     - prodnetwork
   environment:
-   - HUB_PORT_4444_TCP_ADDR=selhub
+   - HUB_PORT_4444_TCP_ADDR=seleniumhub
   depends_on:
-    - selhub
-
+    - seleniumhub
  nodechrome:
-  image: selenium/node-chrome-debug
+  image: selenium/node-chrome
   ports:
     - 5900
   networks:
     - prodnetwork
   environment:
-   - HUB_PORT_4444_TCP_ADDR=selhub
+   - HUB_PORT_4444_TCP_ADDR=seleniumhub
   depends_on:
-    - selhub
+    - seleniumhub
 
- db2:
-  image: postgres
-  environment:
-    - POSTGRES_USER=gitlab
-    - POSTGRES_PASSWORD=gitlab
-    - POSTGRES_DB=gitlab
-  networks:
-    - prodnetwork
  gitlab:
-  image: sameersbn/gitlab:8.3.2
-  ports:
-    - "10080:80"
-    - "10022:22"
-  networks:
-    - prodnetwork
-  depends_on:
-    - db2
-    - redis
+  image: gitlab/gitlab-ce:8.9.6-ce.0
+  restart: always
+  hostname: '192.168.99.100'
   environment:
-    - DB_HOST=db2
-    - DB_NAME=gitlab
-    - DB_USER=gitlab
-    - DB_PASS=gitlab
-    - REDIS_HOST=redis
-
-    - TZ=Europe/Madrid
-    - GITLAB_TIMEZONE=Madrid
-
-    - GITLAB_SECRETS_DB_KEY_BASE=long-and-random-alphanumeric-string
-
-    - GITLAB_HOST=localhost
-    - GITLAB_PORT=10080
-    - GITLAB_SSH_PORT=10022
-
-    - GITLAB_NOTIFY_ON_BROKEN_BUILDS=true
-    - GITLAB_NOTIFY_PUSHER=false
-
-    - GITLAB_EMAIL=notifications@example.com
-    - GITLAB_EMAIL_REPLY_TO=noreply@example.com
-    - GITLAB_INCOMING_EMAIL_ADDRESS=reply@example.com
-
-    - GITLAB_BACKUPS=daily
-    - GITLAB_BACKUP_TIME=01:00
-
-    - SMTP_ENABLED=false
-    - SMTP_DOMAIN=www.example.com
-    - SMTP_HOST=smtp.gmail.com
-    - SMTP_PORT=587
-    - SMTP_USER=mailer@example.com
-    - SMTP_PASS=password
-    - SMTP_STARTTLS=true
-    - SMTP_AUTHENTICATION=login
-
-    - IMAP_ENABLED=false
-    - IMAP_HOST=imap.gmail.com
-    - IMAP_PORT=993
-    - IMAP_USER=mailer@example.com
-    - IMAP_PASS=password
-    - IMAP_SSL=true
-    - IMAP_STARTTLS=false
+    GITLAB_OMNIBUS_CONFIG: |
+      # external_url 'https://gitlab.example.com'
+      # Add any other gitlab.rb configuration here, each on its own line
+  ports:
+    - "80:80"
+    - "443:443"
+    - "2222:22"
   volumes:
-    - /srv/docker/gitlab/gitlab:/home/git/data
- redis:
-  image: sameersbn/redis:latest
-  networks:
-    - prodnetwork
-  volumes:
-    - /srv/docker/gitlab/redis:/var/lib/redis
+    - /opt/gitlab/config:/etc/gitlab
+    - /opt/gitlab/logs:/var/log/gitlab
+    - /opt/gitlab/data:/var/opt/gitlab
