@@ -53,7 +53,13 @@ def createCiJob(def jobName, def gitUrl, def pomFile) {
     }
     publishers {
       chucknorris()
-      archiveJunit('**/target/surefire-reports/*.xml')
+      archiveJunit('**/target/surefire-reports/*.xml') {
+        allowEmptyResults()
+        retainLongStdout()
+        testDataPublishers {
+          publishTestStabilityData()
+        }
+      }
       publishCloneWorkspace('**', '', 'Any', 'TAR', true, null)
       downstreamParameterized {
         trigger("${jobName}-2-sonar") {
