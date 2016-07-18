@@ -53,8 +53,12 @@ def createCiJob(def jobName, def gitUrl, def pomFile) {
     }
     publishers {
       chucknorris()
-      archiveJunit('**/target/surefire-reports/*.xml') {
-        allowEmptyResults(true)
+      archiveXUnit {
+        jUnit {
+          pattern('**/target/surefire-reports/*.xml')
+          skipNoTestFiles(false)
+          stopProcessingIfError(true)
+        }
       }
       publishCloneWorkspace('**', '', 'Any', 'TAR', true, null)
       downstreamParameterized {
