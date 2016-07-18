@@ -145,8 +145,8 @@ def createDockerStartJob(def jobName, def folder, def port) {
     steps {
       steps {
         shell('echo "Stopping Docker Container first"')
-        shell("sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter=\"name=conference-${folder}\")")
-        shell("sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter=\"name=conference-${folder}\")")
+        shell("sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter=\"name=conference-${folder}\") | true ")
+        shell("sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter=\"name=conference-${folder}\") | true ")
         shell('echo "Starting Docker Container"')
         shell("sudo /usr/bin/docker run -d --name conference-${folder} -p=${port}:8080 conference-${folder}")
       }
