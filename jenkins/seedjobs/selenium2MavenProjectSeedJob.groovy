@@ -5,8 +5,7 @@ job("selenium2-maven-project") {
       remote {
         url(giturl)
       }
-      createTag(false)
-      clean()
+      cleanAfterCheckout()
     }
   }
   triggers {

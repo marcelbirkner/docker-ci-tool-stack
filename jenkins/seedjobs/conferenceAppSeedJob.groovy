@@ -23,8 +23,7 @@ def createCiJob(def jobName, def gitUrl, def pomFile) {
         remote {
           url(gitUrl)
         }
-        createTag(false)
-        clean()
+        cleanAfterCheckout()
       }
     }
     wrappers {

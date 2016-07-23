@@ -1,4 +1,4 @@
-FROM jenkins:1.642.1
+FROM jenkins:2.7.1
 
 USER root
 RUN apt-get update \
