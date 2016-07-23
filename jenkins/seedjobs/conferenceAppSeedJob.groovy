@@ -64,7 +64,9 @@ def createCiJob(def jobName, def gitUrl, def pomFile) {
       publishCloneWorkspace('**', '', 'Any', 'TAR', true, null)
       downstreamParameterized {
         trigger("${jobName}-2-sonar") {
-          currentBuild()
+          parameters {
+            currentBuild()
+          }
         }
       }
     }
@@ -103,7 +105,9 @@ def createSonarJob(def jobName, def gitUrl, def pomFile) {
       chucknorris()
       downstreamParameterized {
         trigger("${jobName}-3-docker-build") {
-          currentBuild()
+          parameters {
+            currentBuild()
+          }
         }
       }
     }
@@ -132,7 +136,9 @@ def createDockerBuildJob(def jobName, def folder) {
       chucknorris()
       downstreamParameterized {
         trigger("${jobName}-4-docker-start-container") {
-          currentBuild()
+          parameters {
+            currentBuild()
+          }
         }
       }
     }
