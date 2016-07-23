@@ -33,9 +33,9 @@ def createDockerJob(def jobName, def shellCommand, def gitRepository) {
             remote {
               url(gitRepository)
             }
-			extensions {
-				cleanAfterCheckout()
-			}
+            extensions {
+              cleanAfterCheckout()
+            }
           }
         }
       }

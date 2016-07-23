@@ -9,7 +9,7 @@ for(i in 0..10) {
           url(giturl)
         }
         extensions {
-	        cleanAfterCheckout()
+          cleanAfterCheckout()
         }
       }
     }

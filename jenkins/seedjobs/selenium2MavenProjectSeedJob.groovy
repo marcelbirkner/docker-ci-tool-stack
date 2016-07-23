@@ -6,7 +6,7 @@ job("selenium2-maven-project") {
         url(giturl)
       }
       extensions {
-		cleanAfterCheckout()
+        cleanAfterCheckout()
       }
     }
   }
