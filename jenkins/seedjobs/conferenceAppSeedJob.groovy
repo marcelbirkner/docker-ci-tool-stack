@@ -23,7 +23,9 @@ def createCiJob(def jobName, def gitUrl, def pomFile) {
         remote {
           url(gitUrl)
         }
-        cleanAfterCheckout()
+		extensions {
+			cleanAfterCheckout()
+		}
       }
     }
     wrappers {

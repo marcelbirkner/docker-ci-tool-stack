@@ -5,7 +5,9 @@ job("selenium2-maven-project") {
       remote {
         url(giturl)
       }
-      cleanAfterCheckout()
+      extensions {
+		cleanAfterCheckout()
+      }
     }
   }
   triggers {

@@ -8,7 +8,9 @@ for(i in 0..10) {
         remote {
           url(giturl)
         }
-        cleanAfterCheckout()
+        extensions {
+	        cleanAfterCheckout()
+        }
       }
     }
     triggers {
