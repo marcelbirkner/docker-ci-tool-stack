@@ -1,4 +1,4 @@
-def gitUrl="https://github.com/eitsch/docker-ci-tool-stack"
+def gitUrl="https://github.com/marcelbirkner/docker-ci-tool-stack"
 
 createDockerJob("docker-admin-version", "sudo /usr/bin/docker version", "")
 createDockerJob("docker-admin-list-running-container", "sudo /usr/bin/docker ps", "")
