@@ -83,7 +83,8 @@ services:
  gitlab:
   image: gitlab/gitlab-ce:8.9.6-ce.0
   restart: always
-  hostname: '192.168.99.100'
+  networks:
+    - prodnetwork
   environment:
     GITLAB_OMNIBUS_CONFIG: |
       # external_url 'https://gitlab.example.com'
