@@ -8,10 +8,42 @@ Blog article on the CI Docker Container, https://blog.codecentric.de/en/2015/10/
 
 ## Prerequisites (Mac)
 
+### With Docker Toolbox (incl. VirtualBox)
+
 You should have Docker Toolbox installed, see https://www.docker.com/toolbox
 
 I am using docker-compose to start several docker container at once.
 Since all containers run in a single VM (virtualbox), this VM needs enough memory.
+
+### With Docker Mac Native
+
+(see [Issue 26](https://github.com/marcelbirkner/docker-ci-tool-stack/issues/26))
+
+If you use new Docker Mac Native implementation without VirtualBox and Docker Toolbox (install howto (https://docs.docker.com/docker-for-mac/)[https://docs.docker.com/docker-for-mac/] and if you had Toolbox before, make sure to follow these steps here https://docs.docker.com/docker-for-mac/docker-toolbox/ )
+
+Create folders
+
+* /opt/jenkins via __sudo mkdir /opt/jenkins__
+* /opt/postgres via __sudo mkdir /opt/postgres__
+* /opt/gitlab via __sudo mkdir /opt/gitlab__
+
+& change the owning user to your account, e.g. via __sudo chown yourUserName gitlab/__
+
+Then configure these folders in Docker / Preferences / File Sharing:
+
+![docker_preferences_file_sharing.png](screenshots/docker_preferences_file_sharing.png)
+
+
+Also alter Line 23 in docker-compose.yml under jenkins / volumes from
+
+    - /usr/local/bin/docker:/usr/bin/docker
+
+    to 
+
+    - /usr/bin/docker:/usr/bin/docker
+
+(this is because '/usr/bin/docker' is the docker binary, see [Issue 24](https://github.com/marcelbirkner/docker-ci-tool-stack/issues/24) )
+
 
 ### Step 0 - Check Docker Machine version
 
