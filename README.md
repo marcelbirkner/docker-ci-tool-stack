@@ -8,42 +8,12 @@ Blog article on the CI Docker Container, https://blog.codecentric.de/en/2015/10/
 
 ## Prerequisites (Mac)
 
-### With Docker Toolbox (incl. VirtualBox)
+# With Docker Toolbox (incl. VirtualBox)
 
 You should have Docker Toolbox installed, see https://www.docker.com/toolbox
 
 I am using docker-compose to start several docker container at once.
 Since all containers run in a single VM (virtualbox), this VM needs enough memory.
-
-### With Docker Mac Native
-
-(see [Issue 26](https://github.com/marcelbirkner/docker-ci-tool-stack/issues/26))
-
-If you use new Docker Mac Native implementation without VirtualBox and Docker Toolbox (install howto (https://docs.docker.com/docker-for-mac/)[https://docs.docker.com/docker-for-mac/] and if you had Toolbox before, make sure to follow these steps here https://docs.docker.com/docker-for-mac/docker-toolbox/ )
-
-Create folders
-
-* /opt/jenkins via __sudo mkdir /opt/jenkins__
-* /opt/postgres via __sudo mkdir /opt/postgres__
-* /opt/gitlab via __sudo mkdir /opt/gitlab__
-
-& change the owning user to your account, e.g. via __sudo chown yourUserName gitlab/__
-
-Then configure these folders in Docker / Preferences / File Sharing:
-
-![docker_preferences_file_sharing.png](screenshots/docker_preferences_file_sharing.png)
-
-
-Also alter Line 23 in docker-compose.yml under jenkins / volumes from
-
-    - /usr/local/bin/docker:/usr/bin/docker
-
-    to 
-
-    - /usr/bin/docker:/usr/bin/docker
-
-(this is because '/usr/bin/docker' is the docker binary, see [Issue 24](https://github.com/marcelbirkner/docker-ci-tool-stack/issues/24) )
-
 
 ### Step 0 - Check Docker Machine version
 
@@ -87,16 +57,83 @@ Configure shell environment to connect to your new Docker instance
 eval "$(docker-machine env default)"
 ```
 
-## Getting started
+### Step 3 - clone Repository
 
-To get all docker containers up and running use:
+Clone Repository
 
 ```
-# Clone Repository and startup all docker container
 git clone git@github.com:marcelbirkner/docker-ci-tool-stack.git
 cd docker-ci-tool-stack
+```
+
+
+# With Docker Mac Native
+
+If you want to use new Docker Mac Native implementation without VirtualBox and Docker Toolbox, follow these steps: 
+
+### Step 0 - Install Docker Mac Native
+
+Install Docker Mac Native (https://docs.docker.com/docker-for-mac/)[https://docs.docker.com/docker-for-mac/] and if you had Toolbox before, make sure to follow these steps here https://docs.docker.com/docker-for-mac/docker-toolbox/
+
+or install via __brew update__ & __brew cask install docker --force__ .
+
+If everything went fine, docker --version should give something like this (or a higher version number):
+
+```
+$ docker --version
+Docker version 1.12.0, build 8eab29e
+
+$ docker-compose --version
+docker-compose version 1.8.0, build f3628c7
+```
+
+If there´s also docker-machine on your machine, don´t forget to do the mentioned steps [here](https://docs.docker.com/docker-for-mac/docker-toolbox/) to remove it.
+
+### Step 1 - Create needed osxfs mountpoints
+
+Create folders (see [Issue 26](https://github.com/marcelbirkner/docker-ci-tool-stack/issues/26))
+
+* /opt/jenkins via __sudo mkdir /opt/jenkins__
+* /opt/postgres via __sudo mkdir /opt/postgres__
+* /opt/gitlab via __sudo mkdir /opt/gitlab__
+
+Change the owning user to your account, e.g. via __sudo chown yourUserName gitlab/__
+
+Then configure these folders in Docker / Preferences / File Sharing:
+
+![docker_preferences_file_sharing.png](screenshots/docker_preferences_file_sharing.png)
+
+### Step 2 - Configure correct path to docker binary
+
+Clone Repository
+
+```
+git clone git@github.com:marcelbirkner/docker-ci-tool-stack.git
+cd docker-ci-tool-stack
+```
+
+Alter Line 23 in docker-compose.yml under jenkins / volumes from
+
+    - /usr/local/bin/docker:/usr/bin/docker
+
+    to 
+
+    - /usr/bin/docker:/usr/bin/docker
+
+(this is because '/usr/bin/docker' is the docker binary, see [Issue 24](https://github.com/marcelbirkner/docker-ci-tool-stack/issues/24) )
+
+
+
+# Getting started
+
+To get all docker containers up and running, in __docker-ci-tool-stack__ use:
+
+```
 docker-compose up
 ```
+
+
+
 
 ## Access Tools
 
