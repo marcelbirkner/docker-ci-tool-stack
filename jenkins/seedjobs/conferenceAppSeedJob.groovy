@@ -23,8 +23,9 @@ def createCiJob(def jobName, def gitUrl, def pomFile) {
         remote {
           url(gitUrl)
         }
-        createTag(false)
-        clean()
+        extensions {
+          cleanAfterCheckout()
+        }
       }
     }
     wrappers {
@@ -53,11 +54,19 @@ def createCiJob(def jobName, def gitUrl, def pomFile) {
     }
     publishers {
       chucknorris()
-      archiveJunit('**/target/surefire-reports/*.xml')
+      archiveXUnit {
+        jUnit {
+          pattern('**/target/surefire-reports/*.xml')
+          skipNoTestFiles(true)
+          stopProcessingIfError(true)
+        }
+      }
       publishCloneWorkspace('**', '', 'Any', 'TAR', true, null)
       downstreamParameterized {
         trigger("${jobName}-2-sonar") {
-          currentBuild()
+          parameters {
+            currentBuild()
+          }
         }
       }
     }
@@ -96,7 +105,9 @@ def createSonarJob(def jobName, def gitUrl, def pomFile) {
       chucknorris()
       downstreamParameterized {
         trigger("${jobName}-3-docker-build") {
-          currentBuild()
+          parameters {
+            currentBuild()
+          }
         }
       }
     }
@@ -125,7 +136,9 @@ def createDockerBuildJob(def jobName, def folder) {
       chucknorris()
       downstreamParameterized {
         trigger("${jobName}-4-docker-start-container") {
-          currentBuild()
+          parameters {
+            currentBuild()
+          }
         }
       }
     }
@@ -145,8 +158,8 @@ def createDockerStartJob(def jobName, def folder, def port) {
     steps {
       steps {
         shell('echo "Stopping Docker Container first"')
-        shell("sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter=\"name=conference-${folder}\")")
-        shell("sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter=\"name=conference-${folder}\")")
+        shell("sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter=\"name=conference-${folder}\") | true ")
+        shell("sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter=\"name=conference-${folder}\") | true ")
         shell('echo "Starting Docker Container"')
         shell("sudo /usr/bin/docker run -d --name conference-${folder} -p=${port}:8080 conference-${folder}")
       }

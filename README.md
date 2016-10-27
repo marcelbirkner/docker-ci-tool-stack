@@ -52,7 +52,7 @@ To see how to connect Docker to this machine, run: docker-machine env default
 Configure shell environment to connect to your new Docker instance
 
 ```
-# eval “$(docker-machine env default)”
+eval "$(docker-machine env default)"
 ```
 
 ## Getting started
@@ -60,9 +60,10 @@ Configure shell environment to connect to your new Docker instance
 To get all docker containers up and running use:
 
 ```
-# git clone git@github.com:marcelbirkner/docker-ci-tool-stack.git
-# cd docker-ci-tool-stack
-# docker-compose up
+# Clone Repository and startup all docker container
+git clone git@github.com:marcelbirkner/docker-ci-tool-stack.git
+cd docker-ci-tool-stack
+docker-compose up
 ```
 
 ## Access Tools
@@ -72,7 +73,7 @@ To get all docker containers up and running use:
 | Jenkins | http://${docker-machine ip default}:18080/ | no login required |
 | SonarQube | http://${docker-machine ip default}:19000/ | admin/admin |
 | Nexus | http://${docker-machine ip default}:18081/nexus | admin/admin123 |
-| GitLab | http://${docker-machine ip default}:10080/ | root/5iveL!fe |
+| GitLab | http://${docker-machine ip default}/ | root/5iveL!fe |
 | Selenium Grid | http://${docker-machine ip default}:4444/grid/console | no login required |
 
 ## Screenshots
@@ -121,8 +122,8 @@ That eliminates any side effects. Afterwards you can throw away the image.
 
 ```
 # Create new image
-docker-machine create --driver virtualbox --virtualbox-memory “6000” docker-ci-v1
+docker-machine create --driver virtualbox --virtualbox-memory 6000 docker-ci-v1
 
 # Configure shell environment
-eval "$(docker-machine env docker-ci-v1)"
+eval $(docker-machine env docker-ci-v1)
 ```

@@ -2,7 +2,7 @@
 # Creates a docker container with Nexus Artifact Repository
 #
 
-FROM centos:6
+FROM centos:6.8
 
 MAINTAINER Marcel Birkner <marcel.birkner@codecentric.de>
 
@@ -33,7 +33,7 @@ ENV JAVA_HOME /usr/lib/jvm/jre
 # Install Nexus
 ##########################################################
 RUN mkdir -p /opt/sonatype-nexus /opt/sonatype-work
-RUN wget -O /tmp/nexus-latest-bundle.tar.gz http://www.sonatype.org/downloads/nexus-latest-bundle.tar.gz
+RUN wget -O /tmp/nexus-latest-bundle.tar.gz http://download.sonatype.com/nexus/oss/nexus-2.13.0-01-bundle.tar.gz
 RUN tar xzvf /tmp/nexus-latest-bundle.tar.gz -C /opt/sonatype-nexus --strip-components=1
 RUN useradd --user-group --system --home-dir /opt/sonatype-nexus nexus
 

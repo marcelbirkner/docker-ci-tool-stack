@@ -5,8 +5,9 @@ job("selenium2-maven-project") {
       remote {
         url(giturl)
       }
-      createTag(false)
-      clean()
+      extensions {
+        cleanAfterCheckout()
+      }
     }
   }
   triggers {
@@ -15,7 +16,7 @@ job("selenium2-maven-project") {
   }
   steps {
     maven {
-        goals('clean test -Dgrid.server.url=http://selhub:4444/wd/hub')
+        goals('clean test -Dgrid.server.url=http://seleniumhub:4444/wd/hub')
         mavenInstallation('Maven 3.3.3')
         mavenOpts('-Xms512m -Xmx1024m')
         providedGlobalSettings('MyGlobalSettings')
