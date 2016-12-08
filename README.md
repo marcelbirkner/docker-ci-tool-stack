@@ -71,7 +71,7 @@ cd docker-ci-tool-stack
 docker-compose up
 ```
 
-UPDATE: For Linux Users
+UPDATE for Linux Users:
 Please run **docker-compose.yml.native-docker-fix.sh** before executing **docker-compose up**.
 This will fix the Docker binary PATH. See #24.
 
