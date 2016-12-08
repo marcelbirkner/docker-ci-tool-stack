@@ -61,7 +61,12 @@ To get all docker containers up and running use:
 
 ```
 # Clone Repository and startup all docker container
+# Option A: clone via https
+git clone https://github.com/marcelbirkner/docker-ci-tool-stack.git
+
+# Option B: if you have your ssh keys configured for your GitHub account
 git clone git@github.com:marcelbirkner/docker-ci-tool-stack.git
+
 cd docker-ci-tool-stack
 docker-compose up
 ```
