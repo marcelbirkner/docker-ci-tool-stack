@@ -17,11 +17,11 @@ Since all containers run in a single VM (virtualbox), this VM needs enough memor
 
 ### Step 0 - Check Docker Machine version
 
-Ensure that you are using version 0.3.0 or greater of `docker-machine`
+Ensure that you are using version 0.3.0 or greater of `docker-machine`.
 
 ```
 # docker-machine version
-docker-machine version 0.5.4, build
+docker-machine version 0.8.2, build e18a919
 ```
 
 ### Step 1 - Start Docker Machine

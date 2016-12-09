@@ -43,6 +43,8 @@ services:
     - sonardb
   environment:
    - SONARQUBE_JDBC_URL=jdbc:postgresql://sonardb:5432/sonar
+   - SONARQUBE_JDBC_USERNAME=sonar
+   - SONARQUBE_JDBC_PASSWORD=sonar
  sonardb:
   networks:
     - prodnetwork
@@ -81,7 +83,7 @@ services:
     - seleniumhub
 
  gitlab:
-  image: gitlab/gitlab-ce:8.11.3-ce.1
+  image: gitlab/gitlab-ce:8.14.4-ce.0
   restart: always
   networks:
     - prodnetwork
