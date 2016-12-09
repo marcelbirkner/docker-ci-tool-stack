@@ -138,11 +138,11 @@ This script patches the docker-compose.yml.
 
 Please alter Line 23 in docker-compose.yml under jenkins / volumes from
 
-    - /usr/local/bin/docker:/usr/bin/docker
+- /usr/local/bin/docker:/usr/bin/docker
 
-    to
+to
 
-    - /usr/bin/docker:/usr/bin/docker
+- /usr/bin/docker:/usr/bin/docker
 
 This is because '/usr/bin/docker' is the docker binary, see [Issue 24](https://github.com/marcelbirkner/docker-ci-tool-stack/issues/24).
 
