@@ -146,7 +146,6 @@ to
 
 This is because '/usr/bin/docker' is the docker binary, see [Issue 24](https://github.com/marcelbirkner/docker-ci-tool-stack/issues/24).
 
-
 ## Access Tools
 
 #### With docker machine
@@ -158,6 +157,7 @@ This is because '/usr/bin/docker' is the docker binary, see [Issue 24](https://g
 | Nexus | http://${docker-machine ip default}:18081/nexus | admin/admin123 |
 | GitLab | http://${docker-machine ip default}/ | root/5iveL!fe |
 | Selenium Grid | http://${docker-machine ip default}:4444/grid/console | no login required |
+| Conference App | http://${docker-machine ip default}:48080/currentSessions | no login required |
 
 #### With Docker Mac Native
 
@@ -168,6 +168,7 @@ This is because '/usr/bin/docker' is the docker binary, see [Issue 24](https://g
 | Nexus | http://localhost:18081/nexus | admin/admin123 |
 | GitLab | http://localhost | root/5iveL!fe |
 | Selenium Grid | http://localhost:4444/grid/console | no login required |
+| Conference App | http://localhost:48080/currentSessions | no login required |
 
 ## Screenshots
 
