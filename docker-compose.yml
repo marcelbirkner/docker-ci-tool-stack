@@ -26,7 +26,6 @@ services:
     - nexus
     - gitlab
     - sonar
-    - seleniumhub
   environment:
     - NEXUS_PORT=8081
     - SONAR_PORT=9000
@@ -54,33 +53,6 @@ services:
    - POSTGRES_PASSWORD=sonar
   volumes:
     - /opt/postgres/data:/var/lib/postgresql/data
-
- seleniumhub:
-  image: selenium/hub
-  ports:
-    - "4444:4444"
-  networks:
-    - prodnetwork
- nodeff:
-  image: selenium/node-firefox
-  ports:
-    - 5900
-  networks:
-    - prodnetwork
-  environment:
-   - HUB_PORT_4444_TCP_ADDR=seleniumhub
-  depends_on:
-    - seleniumhub
- nodechrome:
-  image: selenium/node-chrome
-  ports:
-    - 5900
-  networks:
-    - prodnetwork
-  environment:
-   - HUB_PORT_4444_TCP_ADDR=seleniumhub
-  depends_on:
-    - seleniumhub
 
  gitlab:
   image: gitlab/gitlab-ce:8.14.4-ce.0

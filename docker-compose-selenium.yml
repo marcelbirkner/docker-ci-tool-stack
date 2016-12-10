@@ -1,0 +1,29 @@
+version: '2'
+
+networks:
+  prodnetwork:
+    driver: bridge
+
+services:
+ seleniumhub:
+  image: selenium/hub
+  ports:
+    - "4444:4444"
+  networks:
+    - prodnetwork
+ firefox:
+  image: selenium/node-firefox
+  depends_on:
+    - seleniumhub
+  environment:
+    - HUB_PORT_4444_TCP_ADDR=seleniumhub
+  networks:
+    - prodnetwork
+ chrome:
+  image: selenium/node-chrome
+  depends_on:
+    - seleniumhub
+  environment:
+    - HUB_PORT_4444_TCP_ADDR=seleniumhub
+  networks:
+    - prodnetwork
