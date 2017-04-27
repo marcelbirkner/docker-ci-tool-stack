@@ -12,11 +12,7 @@ RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 # see: https://get.docker.com/builds/
 # see: https://wiki.jenkins-ci.org/display/JENKINS/CloudBees+Docker+Custom+Build+Environment+Plugin#CloudBeesDockerCustomBuildEnvironmentPlugin-DockerinDocker
 RUN curl -sSL -O https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz && tar -xvzf docker-latest.tgz
-
-# Next line breaks docker-compose up in ubuntu 16.04. 
-# It seems we could avoid that since we are 
-# mounting /usr/local/bin/docker from docker-compose.yml
-# RUN mv docker/* /usr/bin/
+RUN mv docker/* /usr/bin/
 
 USER jenkins
 
