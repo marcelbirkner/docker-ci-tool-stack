@@ -93,6 +93,14 @@ If there´s also docker-machine on your machine, don´t forget to do the mention
 
 Create folders (see [Issue 26](https://github.com/marcelbirkner/docker-ci-tool-stack/issues/26))
 
+Create a folder in the root directory "/" (Macintosh HD) and name it as __opt__ 
+
+  Procedure: 
+  * First __$ cd /__ into the root directory "/" 
+  * Second __$ sudo mkdir /opt__
+             
+Then create the sub folders jenkins, postgres, gitlab in the "opt" folder.
+
 * /opt/jenkins via __sudo mkdir /opt/jenkins__
 * /opt/postgres via __sudo mkdir /opt/postgres__
 * /opt/gitlab via __sudo mkdir /opt/gitlab__
