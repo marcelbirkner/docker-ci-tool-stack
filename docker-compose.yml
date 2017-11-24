@@ -6,11 +6,13 @@ networks:
 
 services:
  nexus:
-  build: ./nexus
+  image: sonatype/nexus 
   ports:
     - "18081:8081"
   networks:
     - prodnetwork
+  volumes:
+    - /opt/sonatype/nexus:/sonatype-work 
 
  jenkins:
   build: ./jenkins
@@ -20,7 +22,7 @@ services:
     - prodnetwork
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-    - /usr/local/bin/docker:/usr/bin/docker
+    - /usr/bin/docker:/usr/bin/docker
     - /opt/jenkins/:/var/lib/jenkins/
   depends_on:
     - nexus
@@ -31,11 +33,21 @@ services:
     - SONAR_PORT=9000
     - SONAR_DB_PORT=5432
 
- sonar:
-  build: ./sonar
+ sonardb:
+  networks:
+    - prodnetwork
+  image: postgres:9.6
   ports:
-   - "19000:9000"
-   - "5432:5432"
+    - "5432:5432" 
+  environment:
+   - POSTGRES_USER=sonar
+   - POSTGRES_PASSWORD=sonar
+
+ sonar:
+  image: sonarqube 
+  ports:
+   - "39000:9000"
+   - "39092:9092"
   networks:
     - prodnetwork
   depends_on:
@@ -44,18 +56,9 @@ services:
    - SONARQUBE_JDBC_URL=jdbc:postgresql://sonardb:5432/sonar
    - SONARQUBE_JDBC_USERNAME=sonar
    - SONARQUBE_JDBC_PASSWORD=sonar
- sonardb:
-  networks:
-    - prodnetwork
-  image: postgres
-  environment:
-   - POSTGRES_USER=sonar
-   - POSTGRES_PASSWORD=sonar
-  volumes:
-    - /opt/postgres/data:/var/lib/postgresql/data
 
  gitlab:
-  image: gitlab/gitlab-ce:8.14.4-ce.0
+  image: gitlab/gitlab-ce:latest
   restart: always
   networks:
     - prodnetwork
@@ -64,9 +67,9 @@ services:
       # external_url 'https://gitlab.example.com'
       # Add any other gitlab.rb configuration here, each on its own line
   ports:
-    - "80:80"
-    - "443:443"
-    - "2222:22"
+    - "580:80"
+    - "5443:443"
+    - "522:22"
   volumes:
     - /opt/gitlab/config:/etc/gitlab
     - /opt/gitlab/logs:/var/log/gitlab
