@@ -41,7 +41,6 @@ script-security:latest
 ssh-credentials:latest
 structs:latest
 token-macro:latest
-windows-slaves:latest
 workflow-scm-step:latest
 workflow-step-api:latest
 ws-cleanup:latest
