@@ -1,0 +1,3 @@
+[submodule "docker-nexus3"]
+	path = docker-nexus3
+	url = https://github.com/sonatype/docker-nexus3.git

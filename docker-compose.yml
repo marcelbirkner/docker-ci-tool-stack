@@ -6,16 +6,18 @@ networks:
 
 services:
  nexus:
-  image: sonatype/nexus 
+  build: ./docker-nexus3 
+  restart: always
   ports:
     - "18081:8081"
   networks:
     - prodnetwork
   volumes:
-    - /opt/sonatype/nexus:/sonatype-work 
+    - /opt/sonatype/nexus:/nexus-data 
 
  jenkins:
   build: ./jenkins
+  restart: always
   ports:
     - "18080:8080"
   networks:
@@ -36,6 +38,7 @@ services:
  sonardb:
   networks:
     - prodnetwork
+  restart: always
   image: postgres:9.6
   ports:
     - "5432:5432" 
@@ -45,6 +48,7 @@ services:
 
  sonar:
   image: sonarqube 
+  restart: always
   ports:
    - "39000:9000"
    - "39092:9092"
