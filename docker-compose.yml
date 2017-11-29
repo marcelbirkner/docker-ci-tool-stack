@@ -6,14 +6,14 @@ networks:
 
 services:
  nexus:
-  build: ./docker-nexus3 
+  build: ./docker-nexus3
   restart: always
   ports:
     - "18081:8081"
   networks:
     - prodnetwork
   volumes:
-    - /opt/sonatype/nexus:/nexus-data 
+    - /opt/sonatype/nexus:/nexus-data
 
  jenkins:
   build: ./jenkins
@@ -41,13 +41,13 @@ services:
   restart: always
   image: postgres:9.6
   ports:
-    - "5432:5432" 
+    - "5432:5432"
   environment:
    - POSTGRES_USER=sonar
    - POSTGRES_PASSWORD=sonar
 
  sonar:
-  image: sonarqube 
+  image: sonarqube
   restart: always
   ports:
    - "39000:9000"
@@ -71,9 +71,9 @@ services:
       # external_url 'https://gitlab.example.com'
       # Add any other gitlab.rb configuration here, each on its own line
   ports:
-    - "580:80"
-    - "5443:443"
-    - "522:22"
+    - "10080:80"
+    - "10443:443"
+    - "10022:22"
   volumes:
     - /opt/gitlab/config:/etc/gitlab
     - /opt/gitlab/logs:/var/log/gitlab

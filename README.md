@@ -81,10 +81,10 @@ If everything went fine, docker --version should give something like this (or a 
 
 ```
 $ docker --version
-Docker version 1.12.0, build 8eab29e
+Docker version 17.09.0-ce, build afdb6d4
 
 $ docker-compose --version
-docker-compose version 1.8.0, build f3628c7
+docker-compose version 1.16.1, build 6d1ac21
 ```
 
 If there´s also docker-machine on your machine, don´t forget to do the mentioned steps [here](https://docs.docker.com/docker-for-mac/docker-toolbox/) to remove it.
@@ -93,12 +93,12 @@ If there´s also docker-machine on your machine, don´t forget to do the mention
 
 Create folders (see [Issue 26](https://github.com/marcelbirkner/docker-ci-tool-stack/issues/26))
 
-Create a folder in the root directory "/" (Macintosh HD) and name it as __opt__ 
+Create a folder in the root directory "/" (Macintosh HD) and name it as __opt__
 
-  Procedure: 
-  * First __$ cd /__ into the root directory "/" 
+  Procedure:
+  * First __$ cd /__ into the root directory "/"
   * Second __$ sudo mkdir /opt__
-             
+
 Then create the sub folders jenkins, postgres, gitlab in the "opt" folder.
 
 * /opt/jenkins via __sudo mkdir /opt/jenkins__
@@ -173,7 +173,7 @@ This is because '/usr/bin/docker' is the docker binary, see [Issue 24](https://g
 | ------------- | ------------- | ------------- |
 | Jenkins | http://localhost:18080/ | no login required |
 | SonarQube | http://localhost:19000/ | admin/admin |
-| Nexus | http://localhost:18081/nexus | admin/admin123 |
+| Nexus | http://localhost:18081/ | admin/admin123 |
 | GitLab | http://localhost | root/5iveL!fe |
 | Selenium Grid | http://localhost:4444/grid/console | no login required |
 | Conference App | http://localhost:48080/currentSessions | no login required |
