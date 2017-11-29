@@ -16,7 +16,7 @@ def createCiJob(def jobName, def gitUrl, def pomFile) {
   job("${jobName}-1-ci") {
     parameters {
       stringParam("BRANCH", "master", "Define TAG or BRANCH to build from")
-      stringParam("REPOSITORY_URL", "http://nexus:8081/content/repositories/releases/", "Nexus Release Repository URL")
+      stringParam("REPOSITORY_URL", "http://nexus:8081/repositories/maven-releases/", "Nexus Release Repository URL")
     }
     scm {
       git {

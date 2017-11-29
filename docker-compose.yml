@@ -1,80 +1,80 @@
-version: '2'
+version: '3'
 
 networks:
   prodnetwork:
     driver: bridge
 
 services:
- nexus:
-  build: ./docker-nexus3
-  restart: always
-  ports:
-    - "18081:8081"
-  networks:
-    - prodnetwork
-  volumes:
-    - /opt/sonatype/nexus:/nexus-data
+  nexus:
+    build: ./docker-nexus3
+    restart: always
+    ports:
+      - "18081:8081"
+    networks:
+      - prodnetwork
+#    volumes:
+#      - /opt/sonatype/nexus:/nexus-data
 
- jenkins:
-  build: ./jenkins
-  restart: always
-  ports:
-    - "18080:8080"
-  networks:
-    - prodnetwork
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-    - /usr/bin/docker:/usr/bin/docker
-    - /opt/jenkins/:/var/lib/jenkins/
-  depends_on:
-    - nexus
-    - gitlab
-    - sonar
-  environment:
-    - NEXUS_PORT=8081
-    - SONAR_PORT=9000
-    - SONAR_DB_PORT=5432
+  jenkins:
+    build: ./jenkins
+    restart: always
+    ports:
+      - "18080:8080"
+    networks:
+      - prodnetwork
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+      - /opt/jenkins/:/var/lib/jenkins/
+    depends_on:
+      - nexus
+      - sonar
+    # - gitlab
+    environment:
+      - NEXUS_PORT=8081
+      - SONAR_PORT=9000
+      - SONAR_DB_PORT=5432
 
- sonardb:
-  networks:
-    - prodnetwork
-  restart: always
-  image: postgres:9.6
-  ports:
-    - "5432:5432"
-  environment:
-   - POSTGRES_USER=sonar
-   - POSTGRES_PASSWORD=sonar
+  sonardb:
+    networks:
+      - prodnetwork
+    restart: always
+    image: postgres:9.6
+    ports:
+      - "5432:5432"
+    environment:
+     - POSTGRES_USER=sonar
+     - POSTGRES_PASSWORD=sonar
 
- sonar:
-  image: sonarqube
-  restart: always
-  ports:
-   - "39000:9000"
-   - "39092:9092"
-  networks:
-    - prodnetwork
-  depends_on:
-    - sonardb
-  environment:
-   - SONARQUBE_JDBC_URL=jdbc:postgresql://sonardb:5432/sonar
-   - SONARQUBE_JDBC_USERNAME=sonar
-   - SONARQUBE_JDBC_PASSWORD=sonar
+  sonar:
+    image: sonarqube
+    restart: always
+    ports:
+     - "19000:9000"
+     - "19092:9092"
+    networks:
+      - prodnetwork
+    depends_on:
+      - sonardb
+    environment:
+     - SONARQUBE_JDBC_URL=jdbc:postgresql://sonardb:5432/sonar
+     - SONARQUBE_JDBC_USERNAME=sonar
+     - SONARQUBE_JDBC_PASSWORD=sonar
 
- gitlab:
-  image: gitlab/gitlab-ce:latest
-  restart: always
-  networks:
-    - prodnetwork
-  environment:
-    GITLAB_OMNIBUS_CONFIG: |
-      # external_url 'https://gitlab.example.com'
-      # Add any other gitlab.rb configuration here, each on its own line
-  ports:
-    - "10080:80"
-    - "10443:443"
-    - "10022:22"
-  volumes:
-    - /opt/gitlab/config:/etc/gitlab
-    - /opt/gitlab/logs:/var/log/gitlab
-    - /opt/gitlab/data:/var/opt/gitlab
+#  gitlab:
+#    image: gitlab/gitlab-ce:latest
+#    restart: always
+#    networks:
+#      - prodnetwork
+#    environment:
+#      GITLAB_OMNIBUS_CONFIG: |
+#        # external_url 'https://gitlab.example.com'
+#        # Add any other gitlab.rb configuration here, each on its own line
+#    ports:
+#      - "10080:80"
+#      - "10443:443"
+#      - "10022:22"
+#    volumes:
+#      - /opt/gitlab/config:/etc/gitlab
+#      - /opt/gitlab/logs:/var/log/gitlab
+#      - /opt/gitlab/data:/var/opt/gitlab
