@@ -19,7 +19,7 @@ job("selenium2-maven-project") {
         goals('clean test -Dgrid.server.url=http://seleniumhub:4444/wd/hub')
         mavenInstallation('Maven 3.3.3')
         mavenOpts('-Xms512m -Xmx1024m')
-        providedGlobalSettings('MyGlobalSettings')
+        providedGlobalSettings('bc30ebe0-68e1-4fa7-ab30-38092113a63c')
     }
   }
   publishers {

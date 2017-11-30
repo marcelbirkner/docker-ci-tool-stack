@@ -103,6 +103,15 @@ to
 
 This is because '/usr/bin/docker' is the docker binary, see [Issue 24](https://github.com/marcelbirkner/docker-ci-tool-stack/issues/24).
 
+# Selenium Grid
+
+You have start the selenium grid with a separate command, since the selenium container are
+not part of the default docker-compose.yml.
+
+```
+docker-compose -f docker-compose-selenium.yml up
+```
+
 ## Access Tools
 
 #### With docker machine
