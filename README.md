@@ -14,7 +14,7 @@ Blog article on the CI Docker Container, https://blog.codecentric.de/en/2015/10/
 
 ## With Docker Toolbox (incl. VirtualBox)
 
-see README-LEGACY.md
+see [README-LEGACY.md](README-LEGACY.md)
 
 ## With Docker Mac Native
 
