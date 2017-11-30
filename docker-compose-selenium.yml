@@ -17,6 +17,7 @@ services:
       - seleniumhub
     environment:
       - HUB_PORT_4444_TCP_ADDR=seleniumhub
+      - HUB_PORT_4444_TCP_PORT=4444
     networks:
       - prodnetwork
   chrome:
@@ -25,5 +26,6 @@ services:
       - seleniumhub
     environment:
       - HUB_PORT_4444_TCP_ADDR=seleniumhub
+      - HUB_PORT_4444_TCP_PORT=4444
     networks:
       - prodnetwork
