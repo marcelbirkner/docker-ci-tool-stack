@@ -42,14 +42,14 @@ def createCiJob(def jobName, def gitUrl, def pomFile) {
           mavenInstallation('Maven 3.3.3')
           rootPOM( pomFile )
           mavenOpts('-Xms512m -Xmx1024m')
-          providedGlobalSettings('MyGlobalSettings')
+          providedGlobalSettings('bc30ebe0-68e1-4fa7-ab30-38092113a63c')
       }
       maven {
         goals('clean deploy')
         mavenInstallation('Maven 3.3.3')
         rootPOM(pomFile)
         mavenOpts('-Xms512m -Xmx1024m')
-        providedGlobalSettings('MyGlobalSettings')
+        providedGlobalSettings('bc30ebe0-68e1-4fa7-ab30-38092113a63c')
       }
     }
     publishers {
@@ -91,14 +91,14 @@ def createSonarJob(def jobName, def gitUrl, def pomFile) {
         mavenInstallation('Maven 3.3.3')
         rootPOM(pomFile)
         mavenOpts('-Xms512m -Xmx1024m')
-        providedGlobalSettings('MyGlobalSettings')
+        providedGlobalSettings('bc30ebe0-68e1-4fa7-ab30-38092113a63c')
       }
       maven {
         goals('sonar:sonar -Psonar')
         mavenInstallation('Maven 3.3.3')
         rootPOM(pomFile)
         mavenOpts('-Xms512m -Xmx1024m')
-        providedGlobalSettings('MyGlobalSettings')
+        providedGlobalSettings('bc30ebe0-68e1-4fa7-ab30-38092113a63c')
       }
     }
     publishers {

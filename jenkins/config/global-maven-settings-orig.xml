@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+      <settings xmlns="http://maven.apache.org/SETTINGS/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
+      <mirrors>
+      <mirror>
+      <!--This sends everything else to /public -->
+      <id>nexus </id>
+      <mirrorOf>*</mirrorOf>
+      <url>http://nexus:8081/repository/maven-public</url>
+      </mirror>
+      </mirrors>
+
+      <servers>
+      <server>
+      <id>nexus-release-repository</id>
+      <username>admin</username>
+      <password>admin123</password>
+      </server>
+      </servers>
+
+      <profiles>
+      <profile>
+      <id>sonar</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <sonar.jdbc.url>
+          jdbc:postgresql://sonardb:5432/sonar
+        </sonar.jdbc.url>
+        <sonar.jdbc.username>sonar</sonar.jdbc.username>
+        <sonar.jdbc.password>sonar</sonar.jdbc.password>
+        <!-- Optional URL to server. Default value is http://localhost:9000 -->
+        <sonar.host.url>http://sonar:9000</sonar.host.url>
+      </properties>
+      </profile>
+      <profile>
+      <id>nexus</id>
+      <!--Enable snapshots for the built in central repo to direct -->
+      <!--all requests to nexus via the mirror -->
+      <repositories>
+        <repository>
+          <id>central</id>
+          <url>http://central</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>central</id>
+          <url>http://central</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+      </profile>
+      </profiles>
+
+      <activeProfiles>
+      <!--make the profile active all the time -->
+      <activeProfile>nexus</activeProfile>
+      </activeProfiles>
+
+      </settings>
+      </content>
+      <providerId>org.jenkinsci.plugins.configfiles.maven.MavenSettingsConfig</providerId>
+      <serverCredentialMappings/>
+      <isReplaceAll>true</isReplaceAll>
+      </org.jenkinsci.plugins.configfiles.maven.MavenSettingsConfig>
+      <org.jenkinsci.plugins.configfiles.maven.GlobalMavenSettingsConfig>
+      <id>org.jenkinsci.plugins.configfiles.maven.GlobalMavenSettingsConfig1435422191538</id>
+      <name>MyGlobalSettings</name>
+      <comment>MyGlobalSettings</comment>
+      <content><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+      <settings xmlns="http://maven.apache.org/SETTINGS/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
+      <mirrors>
+      <mirror>
+      <!--This sends everything else to /public -->
+      <id>nexus</id>
+      <mirrorOf>*</mirrorOf>
+      <url>http://nexus:8081/repository/maven-public</url>
+      </mirror>
+      </mirrors>
+
+      <servers>
+      <server>
+      <id>nexus-release-repository</id>
+      <username>admin</username>
+      <password>admin123</password>
+      </server>
+      </servers>
+
+      <profiles>
+      <profile>
+      <id>sonar</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <sonar.jdbc.url>
+          jdbc:postgresql://sonardb:5432/sonar
+        </sonar.jdbc.url>
+        <sonar.jdbc.username>sonar</sonar.jdbc.username>
+        <sonar.jdbc.password>sonar</sonar.jdbc.password>
+        <!-- Optional URL to server. Default value is http://localhost:9000 -->
+        <sonar.host.url>http://sonar:9000</sonar.host.url>
+      </properties>
+      </profile>
+      <profile>
+      <id>nexus</id>
+      <!--Enable snapshots for the built in central repo to direct -->
+      <!--all requests to nexus via the mirror -->
+      <repositories>
+        <repository>
+          <id>central</id>
+          <url>http://central</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>central</id>
+          <url>http://central</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+      </profile>
+      </profiles>
+
+      <activeProfiles>
+      <!--make the profile active all the time -->
+      <activeProfile>nexus</activeProfile>
+      </activeProfiles>
+
+      </settings>
