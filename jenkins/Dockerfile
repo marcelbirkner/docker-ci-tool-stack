@@ -33,7 +33,7 @@ COPY config/config.xml /usr/share/jenkins/ref/config.xml
 # Jenkins Settings, i.e. Maven, Groovy, ...
 COPY config/hudson.tasks.Maven.xml /usr/share/jenkins/ref/hudson.tasks.Maven.xml
 COPY config/hudson.plugins.groovy.Groovy.xml /usr/share/jenkins/ref/hudson.plugins.groovy.Groovy.xml
-COPY config/maven-global-settings-files.xml /usr/share/jenkins/ref/maven-global-settings-files.xml
+COPY config/maven-global-settings-files.xml /usr/share/jenkins/ref/org.jenkinsci.plugins.configfiles.GlobalConfigFiles.xml
 
 # SSH Keys & Credentials
 COPY config/credentials.xml /usr/share/jenkins/ref/credentials.xml

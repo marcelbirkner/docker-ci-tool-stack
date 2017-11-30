@@ -8,6 +8,7 @@ bouncycastle-api:2.16.2
 branch-api:2.0.15
 build-pipeline-plugin:1.5.7.1
 build-timeout:1.19
+bulk-builder:1.5
 chucknorris:1.1
 clone-workspace-scm:0.6
 cloudbees-folder:6.2.1
