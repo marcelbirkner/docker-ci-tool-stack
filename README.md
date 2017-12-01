@@ -10,6 +10,9 @@ Blog article on the CI Docker Container, https://blog.codecentric.de/en/2015/10/
 > For production I use a configuration management tool like Ansible to provision all docker containers and store passwords and keys in ansible vault.
 > See https://www.slideshare.net/MarcelBirkner/continuous-delivery-in-enterprise-environments-using-docker-ansible-and-jenkins
 
+# Docker CI Toolstack screencast
+
+You can watch a short video that shows most features of this demo, without having to install docker.
 
 [![Docker CI Toolstack screencast](screenshots/youtube-preview.png)](https://www.youtube.com/watch?v=lD5u22q6lgs&feature=youtu.be "Docker CI Toolstack screencast")
 
