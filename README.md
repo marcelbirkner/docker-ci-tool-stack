@@ -7,7 +7,7 @@ This GitHub repository contains Dockerfiles for running a set of Continuous Inte
 Blog article on the CI Docker Container, https://blog.codecentric.de/en/2015/10/continuous-integration-platform-using-docker-container-jenkins-sonarqube-nexus-gitlab
 
 > I use this repository for workshops. This is not production ready.
-> For production I use a configuration management tool like Ansible to provision the docker container.
+> For production I use a configuration management tool like Ansible to provision all docker containers and store passwords and keys in ansible vault.
 > See https://www.slideshare.net/MarcelBirkner/continuous-delivery-in-enterprise-environments-using-docker-ansible-and-jenkins
 
 # Mac User
