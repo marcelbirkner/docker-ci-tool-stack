@@ -10,7 +10,7 @@ volumes:
 
 services:
   nexus:
-    build: ./docker-nexus3
+    build: ./nexus
     restart: always
     ports:
       - "18081:8081"
