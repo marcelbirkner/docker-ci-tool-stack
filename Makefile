@@ -8,6 +8,7 @@ LANGUAGE=$(shell echo $$LANG | awk -F. '{print $$1}' | awk -F_ '{print $$2}')
 TIMEZONE=$(shell timedatectl | awk '/Time zone/ {print $$3}')
 
 ##############################################################################
+
 .PHONY: help # This help message
 help:
 	@grep '^.PHONY: .* #' Makefile \
@@ -54,6 +55,10 @@ clean: down
 	@docker-compose rm
 
 ##############################################################################
+
+.PHONY: status # Get stack status "docker-compose ps"
+status:
+	@docker-compose ps
 
 .PHONY: up # Start "docker-compose up"
 up: prepare
