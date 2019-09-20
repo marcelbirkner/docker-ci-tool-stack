@@ -9,20 +9,31 @@ volumes:
   jenkins-data:
 
 services:
+  traefik:
+    image: traefik:montdor
+    restart: always
+    command: --accesslog --api --api.insecure=true --log --providers.docker=true --providers.docker.exposedbydefault=false
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    networks:
+      - prodnetwork
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
   nexus:
     build: ./nexus
     restart: always
-    ports:
-      - "18081:8081"
     networks:
       - prodnetwork
     volumes:
       - nexus-data:/nexus-data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nexus.rule=Host(`localhost`) && PathPrefix(`/nexus/`)"
   jenkins:
     build: ./jenkins
     restart: always
-    ports:
-      - "18080:8080"
     networks:
       - prodnetwork
     volumes:
@@ -36,22 +47,21 @@ services:
       - NEXUS_PORT=8081
       - SONAR_PORT=9000
       - SONAR_DB_PORT=5432
+      - JENKINS_OPTS=--prefix=/jenkins/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jenkins.rule=Host(`localhost`) && PathPrefix(`/jenkins`)"
   sonardb:
     networks:
       - prodnetwork
     restart: always
     image: postgres:9.6
-    ports:
-      - "5432:5432"
     environment:
      - POSTGRES_USER=sonar
      - POSTGRES_PASSWORD=sonar
   sonar:
     image: sonarqube
     restart: always
-    ports:
-     - "19000:9000"
-     - "19092:9092"
     networks:
       - prodnetwork
     depends_on:
@@ -60,6 +70,10 @@ services:
      - SONARQUBE_JDBC_URL=jdbc:postgresql://sonardb:5432/sonar
      - SONARQUBE_JDBC_USERNAME=sonar
      - SONARQUBE_JDBC_PASSWORD=sonar
+     - sonar.web.context=/sonar
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.sonar.rule=Host(`localhost`) && PathPrefix(`/sonar/`)"
 
 ##########################################################################################
 # DISABLED: GitLab takes too much memory and CPU. Demo uses GitHub repositories instead.
