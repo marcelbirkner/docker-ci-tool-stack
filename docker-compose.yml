@@ -22,6 +22,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
   nexus:
+    # Nexus3 uses chef-solo. HTTP_PROXY env is not used.
+    # TODO: deal with Nexus3 and proxies.
     build: ./nexus
     restart: always
     networks:
