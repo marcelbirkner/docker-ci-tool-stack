@@ -45,14 +45,22 @@ prepare:
 			nexus/Dockerfile.tmpl > nexus/Dockerfile \
 		|| true
 
+	# docker-compose: Set traefik virtualhost
+	@test -z ${TRAEFIK_VIRTUALHOST} \
+		&& sed "s/%%TRAEFIK_VIRTUALHOST%%/localhost/" \
+			docker-compose.yml.tmpl > docker-compose.yml \
+		|| sed "s/%%TRAEFIK_VIRTUALHOST%%/${TRAEFIK_VIRTUALHOST}/" \
+			docker-compose.yml.tmpl > docker-compose.yml
+
 .PHONY: clean # Stop and remove temporary files
 clean: down
+	@docker-compose rm
+
 	@rm -f \
 		jenkins/Dockerfile \
 		nexus/Dockerfile \
-		sonar/Dockerfile
-
-	@docker-compose rm
+		sonar/Dockerfile \
+		docker-compose.yml
 
 ##############################################################################
 

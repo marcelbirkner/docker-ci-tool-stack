@@ -1,0 +1,99 @@
+version: '3'
+
+networks:
+  prodnetwork:
+    driver: bridge
+
+volumes:
+  nexus-data:
+  jenkins-data:
+
+services:
+  traefik:
+    image: traefik:montdor
+    restart: always
+    command: --accesslog --api --api.insecure=true --log --providers.docker=true --providers.docker.exposedbydefault=false
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    networks:
+      - prodnetwork
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+  nexus:
+    # Nexus3 uses chef-solo. HTTP_PROXY env is not used.
+    # TODO: deal with Nexus3 and proxies.
+    build: ./nexus
+    restart: always
+    networks:
+      - prodnetwork
+    volumes:
+      - nexus-data:/nexus-data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nexus.rule=Host(`%%TRAEFIK_VIRTUALHOST%%`) && PathPrefix(`/nexus/`)"
+  jenkins:
+    build: ./jenkins
+    restart: always
+    networks:
+      - prodnetwork
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+      - jenkins-data:/var/lib/jenkins/
+    depends_on:
+      - nexus
+      - sonar
+    environment:
+      - NEXUS_PORT=8081
+      - SONAR_PORT=9000
+      - SONAR_DB_PORT=5432
+      - JENKINS_OPTS=--prefix=/jenkins/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jenkins.rule=Host(`%%TRAEFIK_VIRTUALHOST%%`) && PathPrefix(`/jenkins`)"
+  sonardb:
+    networks:
+      - prodnetwork
+    restart: always
+    image: postgres:9.6
+    environment:
+     - POSTGRES_USER=sonar
+     - POSTGRES_PASSWORD=sonar
+  sonar:
+    image: sonarqube
+    restart: always
+    networks:
+      - prodnetwork
+    depends_on:
+      - sonardb
+    environment:
+     - SONARQUBE_JDBC_URL=jdbc:postgresql://sonardb:5432/sonar
+     - SONARQUBE_JDBC_USERNAME=sonar
+     - SONARQUBE_JDBC_PASSWORD=sonar
+     - sonar.web.context=/sonar
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.sonar.rule=Host(`%%TRAEFIK_VIRTUALHOST%%`) && PathPrefix(`/sonar/`)"
+
+##########################################################################################
+# DISABLED: GitLab takes too much memory and CPU. Demo uses GitHub repositories instead.
+#
+#  gitlab:
+#    image: gitlab/gitlab-ce:latest
+#    restart: always
+#    networks:
+#      - prodnetwork
+#    environment:
+#      GITLAB_OMNIBUS_CONFIG: |
+#        # external_url 'https://gitlab.example.com'
+#        # Add any other gitlab.rb configuration here, each on its own line
+#    ports:
+#      - "10080:80"
+#      - "10443:443"
+#      - "10022:22"
+#    volumes:
+#      - /opt/gitlab/config:/etc/gitlab
+#      - /opt/gitlab/logs:/var/log/gitlab
+#      - /opt/gitlab/data:/var/opt/gitlab
