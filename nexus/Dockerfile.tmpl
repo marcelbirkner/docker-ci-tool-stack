@@ -1,0 +1,57 @@
+#
+# Creates a docker container with Nexus Artifact Repository
+#
+
+FROM openjdk:8-alpine
+
+LABEL maintainer="Marcel Birkner <marcel.birkner@codecentric.de>"
+LABEL maintainer="Mathieu Grzybek <mathieu.grzybek@dgfip.finances.gouv.fr">
+
+ENV SONATYPE_WORK /sonatype-work
+ENV NEXUS_VERSION 2.14.1-01
+ENV NEXUS_HOME /opt/sonatype/nexus/
+ENV HTTP_PROXY=%%HTTP_PROXY%%
+
+# Install packages necessary
+RUN apk add --no-cache unzip shadow
+
+ADD https://download.sonatype.com/nexus/oss/nexus-${NEXUS_VERSION}-bundle.zip nexus-${NEXUS_VERSION}-bundle.zip
+
+# Extract Nexus
+RUN set -x \
+	&& unzip nexus-${NEXUS_VERSION}-bundle.zip \
+	&& mkdir -p ${NEXUS_HOME} \
+	&& cp -r nexus-${NEXUS_VERSION}/* ${NEXUS_HOME} \
+	&& rm -rf nexus-${NEXUS_VERSION}-bundle.tar.gz \
+	&& rm -rf nexus-${NEXUS_VERSION}
+	
+
+RUN groupadd -r nexus -g 3001 \
+	&& useradd \
+		-u 3001 \
+		-g nexus \
+		-d ${SONATYPE_WORK} \
+		-s /bin/bash \
+		-c "Nexus Run User" \
+		-r \
+		-m \
+		nexus
+
+VOLUME ${SONATYPE_WORK}
+
+EXPOSE 8081
+
+WORKDIR /opt/sonatype/nexus
+
+ENV CONTEXT_PATH /nexus
+ENV MAX_HEAP 768m
+ENV MIN_HEAP 256m
+ENV JAVA_OPTS -server -XX:MaxPermSize=192m -Djava.net.preferIPv4Stack=true
+ENV LAUNCHER_CONF ./conf/jetty.xml ./conf/jetty-requestlog.xml
+
+CMD java \
+	-Dnexus-work=${SONATYPE_WORK} -Dnexus-webapp-context-path=${CONTEXT_PATH} \
+	-Xms${MIN_HEAP} -Xmx${MAX_HEAP} \
+	-cp 'conf/:lib/*' \
+	${JAVA_OPTS} \
+	org.sonatype.nexus.bootstrap.Launcher ${LAUNCHER_CONF}

@@ -32,7 +32,7 @@ services:
       - nexus-data:/nexus-data
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.nexus.rule=Host(`localhost`) && PathPrefix(`/nexus/`)"
+      - "traefik.http.routers.nexus.rule=Host(`%%TRAEFIK_VIRTUALHOST%%`) && PathPrefix(`/nexus/`)"
   jenkins:
     build: ./jenkins
     restart: always
@@ -52,7 +52,7 @@ services:
       - JENKINS_OPTS=--prefix=/jenkins/
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.jenkins.rule=Host(`localhost`) && PathPrefix(`/jenkins`)"
+      - "traefik.http.routers.jenkins.rule=Host(`%%TRAEFIK_VIRTUALHOST%%`) && PathPrefix(`/jenkins`)"
   sonardb:
     networks:
       - prodnetwork
@@ -75,7 +75,7 @@ services:
      - sonar.web.context=/sonar
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.sonar.rule=Host(`localhost`) && PathPrefix(`/sonar/`)"
+      - "traefik.http.routers.sonar.rule=Host(`%%TRAEFIK_VIRTUALHOST%%`) && PathPrefix(`/sonar/`)"
 
 ##########################################################################################
 # DISABLED: GitLab takes too much memory and CPU. Demo uses GitHub repositories instead.

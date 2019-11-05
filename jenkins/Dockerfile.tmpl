@@ -1,10 +1,16 @@
-FROM jenkins/jenkins:lts
+FROM jenkins/jenkins:lts-alpine
+
+# Authors
+LABEL maintainer="Marcel Birkner <marcel.birkner@codecentric.de>"
+LABEL maintainer="Mathieu Grzybek <mathieu.grzybek@dgfip.finances.gouv.fr">
 
 USER root
-RUN apt-get update \
-      && apt-get install -y sudo curl\
-      && apt-get install -y libltdl7\
-      && rm -rf /var/lib/apt/lists/*
+
+ENV HTTP_PROXY="%%HTTP_PROXY%%"
+ENV HTTP_OPTIONS="-x ${HTTP_PROXY}"
+ENV CURL_OPTIONS="${HTTP_OPTIONS} -sSL"
+
+RUN apk add --no-cache sudo curl
 RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 
 # getting the docker-cli
@@ -12,7 +18,7 @@ RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 # see: https://issues.jenkins-ci.org/browse/JENKINS-35025
 # see: https://get.docker.com/builds/
 # see: https://wiki.jenkins-ci.org/display/JENKINS/CloudBees+Docker+Custom+Build+Environment+Plugin#CloudBeesDockerCustomBuildEnvironmentPlugin-DockerinDocker
-RUN curl -sSL -o /bin/docker https://get.docker.io/builds/Linux/x86_64/docker-latest
+RUN curl $CURL_OPTIONS -o /bin/docker https://get.docker.io/builds/Linux/x86_64/docker-latest
 RUN chmod +x /bin/docker
 
 USER jenkins

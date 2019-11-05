@@ -4,9 +4,13 @@
 
 FROM centos:7
 
-MAINTAINER Marcel Birkner <marcel.birkner@codecentric.de>
+LABEL maintainer="Marcel Birkner <marcel.birkner@codecentric.de>"
+LABEL maintainer="Mathieu Grzybek <mathieu.grzybek@dgfip.finances.gouv.fr">
 
-ENV JAVA_OPTS "$JAVA_OPTS -Duser.country=DE -Duser.language=de -Duser.timezone=Europe/Berlin"
+ENV JAVA_OPTS "$JAVA_OPTS -Duser.country=%%COUNTRY%% -Duser.language=%%LANGUAGE%% -Duser.timezone=%%TIMEZONE%%"
+
+# Proxy variable if needed
+ENV HTTP_PROXY=%%HTTP_PROXY%%
 
 # Set the JAVA_HOME variable to make it clear where Java is located
 ENV JAVA_HOME /usr/lib/jvm/java-1.8.0
@@ -20,10 +24,11 @@ ENV SONAR_WEB_PLUGIN 2.4
 ENV SONAR_SCM_GIT_PLUGIN 1.0
 
 RUN INSTALL_PKGS="java-1.8.0-openjdk.x86_64" && \
-    yum -y --setopt=tsflags=nodocs install $INSTALL_PKGS && \
-    rpm -V $INSTALL_PKGS && \
-    yum clean all  && \
-    localedef -f UTF-8 -i en_US en_US.UTF-8
+	echo "proxy=$HTTP_PROXY" >> /etc/yum.conf && \
+	yum -y --setopt=tsflags=nodocs install $INSTALL_PKGS && \
+	rpm -V $INSTALL_PKGS && \
+	yum clean all  && \
+	localedef -f UTF-8 -i en_US en_US.UTF-8
 
 # Http port
 EXPOSE 9000
