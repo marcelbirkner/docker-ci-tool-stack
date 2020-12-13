@@ -43,6 +43,9 @@ RUN set -x \
 	&& mv sonarqube-${SONAR_VERSION}/* $SONARQUBE_HOME \
 	&& rm $SONARQUBE_HOME/sonarqube-${SONAR_VERSION}.zip
 
+# update vm.max_map_count to make elastic_search happy
+RUN sysctl -w vm.max_map_count=262144
+
 # Add plugins
 RUN mkdir -p $SONARQUBE_HOME/extensions/plugins/
 ADD http://central.maven.org/maven2/org/sonarsource/java/sonar-java-plugin/${SONAR_JAVA_PLUGIN}/sonar-java-plugin-${SONAR_JAVA_PLUGIN}.jar $SONARQUBE_HOME/extensions/plugins/sonar-java-plugin-${SONAR_JAVA_PLUGIN}.jar
